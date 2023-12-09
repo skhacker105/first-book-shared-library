@@ -5,8 +5,6 @@ import { ShopFolderLoggerService } from 'shop-folder-logger';
 
 @Component({
   selector: 'lib-login-page',
-  standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss'
 })
