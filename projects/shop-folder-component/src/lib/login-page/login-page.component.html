@@ -1,0 +1,30 @@
+<div class="{{className}}">
+    <div class="login-box">
+
+        <!-- Header -->
+        <div class="login-box-header">
+            Login
+        </div>
+
+        <!-- Phone Email -->
+        <div class="login-box-input" *ngIf="!isOTPSent">
+            <div class="login-box-input-txt">
+                <input [formControl]="phoneemail">
+            </div>
+            <div class="login-box-input-button">
+                <button>Get OTP</button>
+            </div>
+        </div>
+
+        <!-- OTP -->
+        <div class="login-box-input" *ngIf="isOTPSent">
+
+            <div class="login-box-input-txt">
+                <input [formControl]="otp">
+            </div>
+            <div class="login-box-input-button">
+                <button>Verify</button>
+            </div>
+        </div>
+    </div>
+</div>
