@@ -2,7 +2,7 @@
     width: 100%;
     height: 100%;
     display: flex;
-    background-image: url(../../../../assets/bg.png);
+    background-image: url('../../../assets/dirt_mud.jpg');
     background-position: bottom;
     background-size: contain;
     background-repeat: no-repeat;
@@ -22,11 +22,7 @@
             font-size: 20px;
             font-weight: bold;
             align-items: center;
-            background-image: url(../../../../assets/dirt_mud.jpg);
-            background-position: bottom;
-            background-repeat: no-repeat;
             width: 100%;
-            background-size: cover;
             min-height: calc(100% - vw);
 
             img {
@@ -90,11 +86,10 @@
 
                 input {
                     width: calc(100% + 25px);
-                    border: solid 1px #000000;
+                    border: solid 1px #a4a4a4;
                     padding: 10px;
                     background: #404040;
-                    color: white;
-                    margin-top: 1px;
+                    color: #fff;
                     border-bottom-left-radius: 8px;
                     border-top-left-radius: 8px;
                 }
@@ -106,10 +101,14 @@
 
                 button {
                     background-color: #404040;
-                    color: #fff;
-                    border-radius: 10px;
-                    height: 40px;
+                    height: 39px;
                     width: 50px;
+                    color: #fff;
+                    border-top: solid 1px #a4a4a4;
+                    border-right: solid 1px #a4a4a4;
+                    border-bottom: solid 1px #a4a4a4;
+                    border-radius: 0 10px 10px 0/0px 10px 10px 0px;
+                    margin-top: -1px;
                 }
 
                 button:disabled,

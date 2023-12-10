@@ -2,5 +2,5 @@
  * Public API Surface of shop-folder-component
  */
 
-export * from './lib/shop-folder-component/login-page/login-page.component';
-export * from './lib/shop-folder-component/page-layout/page-layout.component';
+export * from './lib/login-page/login-page.component';
+export * from './lib/page-layout/page-layout.component';
