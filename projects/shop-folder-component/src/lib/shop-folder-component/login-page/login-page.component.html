@@ -20,7 +20,7 @@
                 <input [formControl]="phoneemail" placeholder="Enter Phone / Email">
             </div>
             <div class="login-box-input-button">
-                <button>GO</button>
+                <button [disabled]="phoneemail.value ? false : true">GO</button>
             </div>
         </div>
 
@@ -31,7 +31,7 @@
                 <input [formControl]="otp" placeholder="Enter OTP">
             </div>
             <div class="login-box-input-button">
-                <button>Verify</button>
+                <button>GO</button>
             </div>
         </div>
     </div>

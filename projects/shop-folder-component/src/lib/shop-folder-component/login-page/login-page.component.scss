@@ -12,11 +12,10 @@
         margin: auto;
         display: flex;
         flex-direction: column;
-        width: 90%;
-        padding: 10px;
+        width: 100%;
         align-items: center;
-        height: 90%;
-        min-height: 90%;
+        height: 100%;
+        min-height: 100%;
 
         .login-box-header {
             text-align: center;
@@ -24,6 +23,11 @@
             font-weight: bold;
             align-items: center;
             background-image: url(../../../../assets/dirt_mud.jpg);
+            background-position: bottom;
+            background-repeat: no-repeat;
+            width: 100%;
+            background-size: cover;
+            min-height: calc(100% - vw);
 
             img {
                 margin: auto;
@@ -41,33 +45,33 @@
                     text-transform: uppercase;
                     animation: stroke 5s infinite alternate;
                     stroke-width: 2;
-                    stroke: #365fa0;
+                    stroke: rgb(255, 255, 255);
                     font-size: 40px;
                 }
 
                 @keyframes stroke {
                     0% {
-                        fill: rgba(72, 138, 20, 0);
-                        stroke: rgba(54, 95, 160, 1);
+                        fill: rgba(212, 214, 216, 0);
+                        stroke: rgba(165, 165, 165, 1);
                         stroke-dashoffset: 25%;
                         stroke-dasharray: 0 50%;
                         stroke-width: 2;
                     }
 
                     70% {
-                        fill: rgba(72, 138, 20, 0);
-                        stroke: rgba(54, 95, 160, 1);
+                        fill: rgba(212, 214, 216, 0);
+                        stroke: rgba(165, 165, 165, 1);
                     }
 
                     80% {
-                        fill: rgba(72, 138, 20, 0);
-                        stroke: rgba(54, 95, 160, 1);
+                        fill: rgba(212, 214, 216, 0);
+                        stroke: rgba(165, 165, 165, 1);
                         stroke-width: 3;
                     }
 
                     100% {
-                        fill: rgba(72, 138, 204, 1);
-                        stroke: rgba(54, 95, 160, 0);
+                        fill: rgb(255, 255, 255);
+                        stroke: rgba(165, 165, 165, 0);
                         stroke-dashoffset: -25%;
                         stroke-dasharray: 50% 0;
                         stroke-width: 0;
@@ -91,6 +95,8 @@
                     background: #404040;
                     color: white;
                     margin-top: 1px;
+                    border-bottom-left-radius: 8px;
+                    border-top-left-radius: 8px;
                 }
             }
 
@@ -104,6 +110,11 @@
                     border-radius: 10px;
                     height: 40px;
                     width: 50px;
+                }
+
+                button:disabled,
+                button[disabled] {
+                    color: #605f5f !important;
                 }
             }
         }
