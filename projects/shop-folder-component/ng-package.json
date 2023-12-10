@@ -3,5 +3,6 @@
   "dest": "../../dist/shop-folder-component",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": ["./assets"]
 }

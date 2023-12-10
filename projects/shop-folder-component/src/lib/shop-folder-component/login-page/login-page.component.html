@@ -9,7 +9,7 @@
         <!-- Phone Email -->
         <div class="login-box-input" *ngIf="!isOTPSent">
             <div class="login-box-input-txt">
-                <input [formControl]="phoneemail">
+                <input [formControl]="phoneemail" placeholder="Enter Phone / Email">
             </div>
             <div class="login-box-input-button">
                 <button>Get OTP</button>
@@ -20,7 +20,7 @@
         <div class="login-box-input" *ngIf="isOTPSent">
 
             <div class="login-box-input-txt">
-                <input [formControl]="otp">
+                <input [formControl]="otp" placeholder="Enter OTP">
             </div>
             <div class="login-box-input-button">
                 <button>Verify</button>
