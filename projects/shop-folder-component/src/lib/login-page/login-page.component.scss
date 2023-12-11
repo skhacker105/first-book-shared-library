@@ -97,12 +97,14 @@
                     border-top-left-radius: 8px;
                 }
 
-                a {
+                span {
                     margin: auto;
                     color: white;
                     line-height: 40px;
                     text-underline-offset: 7px;
                     margin-left: calc(50% - 78px);
+                    cursor: pointer;
+                    text-decoration: underline;
                 }
             }
 

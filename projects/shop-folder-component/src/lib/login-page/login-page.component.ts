@@ -19,6 +19,7 @@ export class LoginPageComponent implements OnInit {
   @Input() phoneEmailSubmitResponse: Subject<any> | undefined;
   @Output() onPhoneEmailSubmit = new EventEmitter<string>();
   @Output() onOTPSubmit = new EventEmitter<string>();
+  @Output() onContinueClick = new EventEmitter<void>();
 
   isOTPSent = false;
   phoneemail = new FormControl<string>('', Validators.required);
