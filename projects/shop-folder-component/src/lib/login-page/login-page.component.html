@@ -14,15 +14,24 @@
             </div>
         </div>
 
-        <!-- Phone Email -->
-        <div class="login-box-input" *ngIf="!isOTPSent">
-            <div class="login-box-input-txt">
-                <input [formControl]="phoneemail" placeholder="Enter Phone / Email">
+        <ng-container *ngIf="!isOTPSent">
+            <!-- Phone Email -->
+            <div class="login-box-input">
+                <div class="login-box-input-txt">
+                    <input [formControl]="phoneemail" placeholder="Enter Phone / Email">
+                </div>
+                <div class="login-box-input-button">
+                    <button [disabled]="phoneemail.value ? false : true">GO</button>
+                </div>
             </div>
-            <div class="login-box-input-button">
-                <button [disabled]="phoneemail.value ? false : true">GO</button>
+            
+            <!-- Continue Without Login -->
+            <div class="login-box-input">
+                <div class="login-box-input-txt">
+                    <a href="">Continue Without Login</a>
+                </div>
             </div>
-        </div>
+        </ng-container>
 
         <!-- OTP -->
         <div class="login-box-input" *ngIf="isOTPSent">

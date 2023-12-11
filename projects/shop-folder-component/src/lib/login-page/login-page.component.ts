@@ -15,6 +15,7 @@ export class LoginPageComponent implements OnInit {
   @Input() className = 'login-page-default-container';
   @Input() logoURL: string | undefined;
   @Input() logoText: string | undefined;
+  @Input() showContinueWithoutLogin = true;
   @Input() phoneEmailSubmitResponse: Subject<any> | undefined;
   @Output() onPhoneEmailSubmit = new EventEmitter<string>();
   @Output() onOTPSubmit = new EventEmitter<string>();

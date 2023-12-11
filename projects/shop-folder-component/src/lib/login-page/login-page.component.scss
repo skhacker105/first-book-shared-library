@@ -24,10 +24,11 @@
             align-items: center;
             width: 100%;
             min-height: calc(100% - vw);
-            opacity: 0.9;
 
             img {
                 margin: auto;
+                opacity: 0.8;
+                margin-top: 10px;
             }
 
             .logo-text {
@@ -93,6 +94,13 @@
                     color: #fff;
                     border-bottom-left-radius: 8px;
                     border-top-left-radius: 8px;
+                }
+
+                a {
+                    margin: auto;
+                    color: white;
+                    line-height: 40px;
+                    text-underline-offset: 7px;
                 }
             }
 
