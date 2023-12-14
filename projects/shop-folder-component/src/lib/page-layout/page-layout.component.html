@@ -1,1 +1,11 @@
-<p>page-layout works!</p>
+<div class="page-layout-container">
+    <div class="page-header">
+        <ng-content select="pageheader"></ng-content>
+    </div>
+    <div class="page-body">
+        <ng-content select="pagebody"></ng-content>
+    </div>
+    <div class="page-footer">
+        <ng-content select="pagefooter"></ng-content>
+    </div>
+</div>
