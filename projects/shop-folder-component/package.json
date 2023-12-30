@@ -1,10 +1,11 @@
 {
   "name": "shop-folder-component",
-  "version": "0.0.40",
+  "version": "0.0.95",
   "peerDependencies": {
     "@angular/common": "^17.0.0",
     "@angular/core": "^17.0.0",
-    "shop-folder-logger": "latest"
+    "shop-folder-logger": "latest",
+    "shop-folder-style": "latest"
   },
   "dependencies": {
     "tslib": "^2.3.0"

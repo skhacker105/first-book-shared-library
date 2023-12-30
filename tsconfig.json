@@ -8,6 +8,9 @@
       ],
       "shop-folder-logger": [
         "./dist/shop-folder-logger"
+      ],
+      "shop-folder-style": [
+        "./dist/shop-folder-style"
       ]
     },
     "outDir": "./dist/out-tsc",

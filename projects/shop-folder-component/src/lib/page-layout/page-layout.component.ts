@@ -1,13 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { StyleService } from 'shop-folder-style';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
   selector: 'lib-page-layout',
   templateUrl: './page-layout.component.html',
-  styleUrls: ['./page-layout.component.scss'],
+  styleUrl: './page-layout.component.scss',
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, MatIconModule, MatSidenavModule]
 })
 export class PageLayoutComponent {
+  @Input() title = ''
 
+  constructor(public styleService: StyleService) { }
 }

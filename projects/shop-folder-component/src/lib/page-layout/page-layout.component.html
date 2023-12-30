@@ -1,12 +1,36 @@
-<div class="page-layout-container">
-    <div class="page-header">
-        <i class="material-icons">menu</i>
-        Menu and Actions
-    </div>
-    <div class="page-body">
-        <ng-content select="pagebody"></ng-content>
-    </div>
-    <div class="page-footer">
-        Footer
-    </div>
+<div class="page-layout-bg">
+    <mat-drawer-container class="page-layout-container">
+
+        <mat-drawer #drawer mode="over">Drawer content</mat-drawer>
+        <mat-drawer-content>
+
+            <!-- HEADER -->
+            <div class="page-header bg-page-header text-page-header leading-page-header">
+
+                <!-- MENU -->
+                <mat-icon (click)="drawer.toggle()">menu</mat-icon>
+
+                <!-- TITLE -->
+                <div class="spacer">
+                    {{ title }}
+                </div>
+
+                <!-- SEARCH -->
+                <div>
+                    <mat-icon>search</mat-icon>
+                </div>
+            </div>
+
+            <!-- BODY -->
+            <div class="page-body bg-page-content text-page-content leading-page-content">
+                <ng-content select="[pagebody]"></ng-content>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="page-footer bg-page-footer text-page-footer leading-page-footer">
+                <ng-content select="[pagefooter]"></ng-content>
+            </div>
+
+        </mat-drawer-content>
+    </mat-drawer-container>
 </div>
