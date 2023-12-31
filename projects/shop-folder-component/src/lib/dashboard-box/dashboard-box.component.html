@@ -1,0 +1,14 @@
+<div class="dashboard-box-container">
+    <div class="dashboard-box" [ngClass]="getClasses('box')">
+        <div class="title" [ngClass]="getClasses('title')">
+            <div [ngClass]="getClasses('logo')">
+                <ng-content select="[logo]"></ng-content>
+            </div>
+            <div>
+                {{ title }}
+            </div>
+        </div>
+        <div class="action"><ng-content select="[action]"></ng-content></div>
+        <ng-content select="[content]"></ng-content>
+    </div>
+</div>

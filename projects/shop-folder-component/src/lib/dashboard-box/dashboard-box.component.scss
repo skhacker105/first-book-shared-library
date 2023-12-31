@@ -1,0 +1,35 @@
+.dashboard-box-container {
+    padding: 10px;
+    min-width: 100%;
+
+    .dashboard-box {
+        border-radius: 10px;
+        box-shadow: 0px 5px 21px 0px #6363dc;
+        display: flex;
+
+        .title {
+            min-width: 100px;
+            padding: 10px;
+            border-radius: 10px;
+            line-height: 25px;
+            display: flex;
+            flex-direction: column;
+
+
+            > * {
+                margin: auto
+            }
+        }
+
+        .action {
+            flex: 1 auto;
+            padding: 10px;
+            text-align: end;
+
+            ::ng-deep .mat-icon {
+                margin-left: 10px;
+                border: solid 1px;
+            }
+        }
+    }
+}

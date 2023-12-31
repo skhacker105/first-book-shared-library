@@ -5,6 +5,7 @@ set baseLocation=D:\ShopFolderContainer\
 set sharedLib=%baseLocation%SharedLibrary\
 set sfHome=%baseLocation%shop-folder-home\
 set sfLogin=%baseLocation%shop-folder-login\
+set sfTodo=%baseLocation%shop-folder-todo\
 
 :: other variables
 set selectedLibrary=_
@@ -16,37 +17,22 @@ echo Select Library for build and publish
 :: echo css: for Styles
 echo cmp: for Component
 echo log: for Logger
-set /p buildFor=[cmp/log/all]?:
+set /p buildFor=[cmp/log/store/logo/all]?:
 
 :: IF /i %buildFor%==css goto css
 IF /i %buildFor%==cmp goto component
 IF /i %buildFor%==log goto logger
+IF /i %buildFor%==logo goto logo
+IF /i %buildFor%==store goto store
 IF /i %buildFor%==all goto component
 echo Library code not found
 goto libBuildPublishExit
 
-:: ===========================================================================
-
-:: :: STYLES
-:: :css
-:: cd %sharedLib%\projects\shop-folder-style
-:: CALL npm version patch
-:: cd %sharedLib%
-:: CALL ng build shop-folder-style --configuration=production
-:: cd %sharedLib%\dist\shop-folder-style
-:: CALL npm publish && (echo Published Style) || (echo Error while publishing Style)
-:: cd %sharedLib%
-:: CALL npm i shop-folder-style@latest
-
-:: :: update applications
-:: cd %sfHome%
-:: set selectedLibrary=shop-folder-style
-:: CALL updatepackage.bat %selectedLibrary% true
-:: goto component
-
-:: ===========================================================================
+:: ================================================================================================
+:: ================================================================================================
 
 :: COMPONENT
+:: =========
 :component
 cd %sharedLib%\projects\shop-folder-component
 CALL npm version patch
@@ -61,11 +47,60 @@ set selectedLibrary=shop-folder-component
 CALL updatepackage.bat %selectedLibrary% true
 cd %sfLogin%
 CALL updatepackage.bat %selectedLibrary% true
+cd %sfTodo%
+CALL updatepackage.bat %selectedLibrary% true
 IF /i NOT %buildFor%==all goto libBuildPublishExit
 
-:: ===========================================================================
+
+:: ================================================================================================
+
+:: STORE
+:: =========
+:store
+cd %sharedLib%\projects\shop-folder-store
+CALL npm version patch
+cd %sharedLib%
+CALL ng build shop-folder-store --configuration=production
+cd %sharedLib%\dist\shop-folder-store
+CALL npm publish && (echo Published Store) || (echo Error while publishing Store)
+
+:: update applications
+cd %sfHome%
+set selectedLibrary=shop-folder-store
+CALL updatepackage.bat %selectedLibrary% true
+cd %sfLogin%
+CALL updatepackage.bat %selectedLibrary% true
+cd %sfTodo%
+CALL updatepackage.bat %selectedLibrary% true
+IF /i NOT %buildFor%==all goto libBuildPublishExit
+
+
+:: ================================================================================================
+
+:: LOGO
+:: =========
+:logo
+cd %sharedLib%\projects\shop-folder-logo
+CALL npm version patch
+cd %sharedLib%
+CALL ng build shop-folder-logo --configuration=production
+cd %sharedLib%\dist\shop-folder-logo
+CALL npm publish && (echo Published Logo) || (echo Error while publishing Logo)
+
+:: update applications
+cd %sfHome%
+set selectedLibrary=shop-folder-logo
+CALL updatepackage.bat %selectedLibrary% true\
+cd %sfTodo%
+CALL updatepackage.bat %selectedLibrary% true
+IF /i NOT %buildFor%==all goto libBuildPublishExit
+
+
+:: ================================================================================================
+
 
 :: LOGGER
+:: ------
 :logger
 cd %sharedLib%\projects\shop-folder-logger
 CALL npm version patch
@@ -80,6 +115,8 @@ cd %sfHome%
 set selectedLibrary=shop-folder-logger
 CALL updatepackage.bat %selectedLibrary% true
 cd %sfLogin%
+CALL updatepackage.bat %selectedLibrary% true
+cd %sfTodo%
 CALL updatepackage.bat %selectedLibrary% true
 IF /i NOT %buildFor%==all goto libBuildPublishExit
 

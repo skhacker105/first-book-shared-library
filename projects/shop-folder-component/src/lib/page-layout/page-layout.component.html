@@ -1,23 +1,40 @@
 <div class="page-layout-bg">
     <mat-drawer-container class="page-layout-container">
 
-        <mat-drawer #drawer mode="over">Drawer content</mat-drawer>
+        <mat-drawer #drawer mode="over" class="page-layout-drawer">
+            <!-- DRAWER HEADER -->
+            <div class="page-header bg-page-header text-page-header leading-page-header">
+                <div class="spacer"></div>
+                <div>
+                    <mat-icon matRipple (click)="drawer.toggle()">close</mat-icon>
+                </div>
+            </div>
+
+            <!-- DRAWER BODY ( MAIN MENU ) -->
+            <div class="page-body bg-page-content text-page-content leading-page-content">
+                <mat-list role="list">
+                    <mat-list-item role="listitem">Item 1</mat-list-item>
+                    <mat-list-item role="listitem">Item 2</mat-list-item>
+                    <mat-list-item role="listitem">Item 3</mat-list-item>
+                </mat-list>
+            </div>
+        </mat-drawer>
         <mat-drawer-content>
 
             <!-- HEADER -->
             <div class="page-header bg-page-header text-page-header leading-page-header">
 
-                <!-- MENU -->
-                <mat-icon (click)="drawer.toggle()">menu</mat-icon>
+                <!-- MENU CONTROL -->
+                <mat-icon matRipple (click)="drawer.toggle()">menu</mat-icon>
 
                 <!-- TITLE -->
                 <div class="spacer">
                     {{ title }}
                 </div>
 
-                <!-- SEARCH -->
+                <!-- SEARCH CONTROL -->
                 <div>
-                    <mat-icon>search</mat-icon>
+                    <mat-icon matRipple>search</mat-icon>
                 </div>
             </div>
 

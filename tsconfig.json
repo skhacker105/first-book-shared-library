@@ -9,6 +9,12 @@
       "shop-folder-logger": [
         "./dist/shop-folder-logger"
       ],
+      "shop-folder-logo": [
+        "./dist/shop-folder-logo"
+      ],
+      "shop-folder-store": [
+        "./dist/shop-folder-store"
+      ],
       "shop-folder-style": [
         "./dist/shop-folder-style"
       ]

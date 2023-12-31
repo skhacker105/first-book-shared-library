@@ -1,6 +1,6 @@
 {
-  "name": "shop-folder-logger",
-  "version": "0.0.2",
+  "name": "shop-folder-logo",
+  "version": "0.0.18",
   "peerDependencies": {
     "@angular/common": "^17.0.0",
     "@angular/core": "^17.0.0"
