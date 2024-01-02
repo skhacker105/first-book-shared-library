@@ -1,14 +1,41 @@
 <div class="dashboard-box-container">
     <div class="dashboard-box" [ngClass]="getClasses('box')">
-        <div class="title" [ngClass]="getClasses('title')">
-            <div [ngClass]="getClasses('logo')">
-                <ng-content select="[logo]"></ng-content>
+
+        <!-- Title -->
+        <div class="title-container" [ngClass]="getClasses('title')">
+
+            <div class="title" [ngClass]="getClasses('title')" [matBadge]="badge" matBadgeColor="warn" [matBadgeHidden]="isExpanded">
+
+                <div class="logo" [ngClass]="getClasses('logo')">
+                    <ng-content select="[logo]"></ng-content>
+                </div>
+                <div class="logo-title">
+                    {{ title }}
+                </div>
+
             </div>
-            <div>
-                {{ title }}
+
+            @if(isExpanded){
+            <div class="content">
+                <ng-content select="[content]"></ng-content>
             </div>
+            }
+
         </div>
-        <div class="action"><ng-content select="[action]"></ng-content></div>
-        <ng-content select="[content]"></ng-content>
+
+        <!-- Action -->
+        <div class="action" [ngClass]="{
+            'expanded': isExpanded
+        }">
+            <ng-content select="[action]"></ng-content>
+            <div class="spacer"></div>
+            @if (!isExpanded) {
+            <mat-icon matRipple (click)="isExpanded = true">keyboard_double_arrow_down</mat-icon>
+            }
+            @else {
+            <mat-icon matRipple (click)="isExpanded = false">cancel</mat-icon>
+            }
+        </div>
+
     </div>
 </div>
