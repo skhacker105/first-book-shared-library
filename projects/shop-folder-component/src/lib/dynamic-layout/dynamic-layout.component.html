@@ -1,0 +1,14 @@
+<lib-page-layout [title]="title" [backURL]="backURL" [hideSearch]="hideSearch">
+    <ng-container pageaction>
+        <ng-content select="[pageaction]"></ng-content>
+    </ng-container>
+
+    <ng-container pagebody appSwipe (swipe)="handleSwipe($event)">
+        <ng-content select="[pagebody]"></ng-content>
+    </ng-container>
+
+    <ng-container pagefooter>
+        <ng-content select="[pagefooter]"></ng-content>
+    </ng-container>
+
+</lib-page-layout>

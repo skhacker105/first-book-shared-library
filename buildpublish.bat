@@ -6,6 +6,7 @@ set sharedLib=%baseLocation%SharedLibrary\
 set sfHome=%baseLocation%shop-folder-home\
 set sfLogin=%baseLocation%shop-folder-login\
 set sfTodo=%baseLocation%shop-folder-todo\
+set sfContact=%baseLocation%shop-folder-contact\
 
 :: other variables
 set selectedLibrary=_
@@ -17,13 +18,14 @@ echo Select Library for build and publish
 :: echo css: for Styles
 echo cmp: for Component
 echo log: for Logger
-set /p buildFor=[cmp/log/store/logo/all]?:
+set /p buildFor=[cmp/log/store/logo/directive/all]?:
 
 :: IF /i %buildFor%==css goto css
 IF /i %buildFor%==cmp goto component
 IF /i %buildFor%==log goto logger
 IF /i %buildFor%==logo goto logo
 IF /i %buildFor%==store goto store
+IF /i %buildFor%==directive goto directive
 IF /i %buildFor%==all goto component
 echo Library code not found
 goto libBuildPublishExit
@@ -49,6 +51,8 @@ cd %sfLogin%
 CALL updatepackage.bat %selectedLibrary% true
 cd %sfTodo%
 CALL updatepackage.bat %selectedLibrary% true
+cd %sfContact%
+CALL updatepackage.bat %selectedLibrary% true
 IF /i NOT %buildFor%==all goto libBuildPublishExit
 
 
@@ -72,6 +76,8 @@ cd %sfLogin%
 CALL updatepackage.bat %selectedLibrary% true
 cd %sfTodo%
 CALL updatepackage.bat %selectedLibrary% true
+cd %sfContact%
+CALL updatepackage.bat %selectedLibrary% true
 IF /i NOT %buildFor%==all goto libBuildPublishExit
 
 
@@ -92,6 +98,8 @@ cd %sfHome%
 set selectedLibrary=shop-folder-logo
 CALL updatepackage.bat %selectedLibrary% true\
 cd %sfTodo%
+CALL updatepackage.bat %selectedLibrary% true
+cd %sfContact%
 CALL updatepackage.bat %selectedLibrary% true
 IF /i NOT %buildFor%==all goto libBuildPublishExit
 
@@ -118,6 +126,28 @@ cd %sfLogin%
 CALL updatepackage.bat %selectedLibrary% true
 cd %sfTodo%
 CALL updatepackage.bat %selectedLibrary% true
+cd %sfContact%
+CALL updatepackage.bat %selectedLibrary% true
+IF /i NOT %buildFor%==all goto libBuildPublishExit
+
+
+:: ================================================================================================
+
+
+:: DIRECTIVE
+:: ------
+:directive
+cd %sharedLib%\projects\shop-folder-directive
+CALL npm version patch
+cd %sharedLib%
+CALL ng build shop-folder-directive --configuration=production
+cd %sharedLib%
+cd dist\shop-folder-directive
+CALL npm publish && (echo Published Directive) || (echo Error while publishing Directive)
+
+:: update applications
+cd %sharedLib%
+CALL npm i shop-folder-directive@latest
 IF /i NOT %buildFor%==all goto libBuildPublishExit
 
 :: ===========================================================================
@@ -125,3 +155,5 @@ IF /i NOT %buildFor%==all goto libBuildPublishExit
 :: EXIT after Building and Publishing selected Library
 :libBuildPublishExit
 cd %sharedLib%
+
+echo  Build completed for "%buildFor%" on %time%

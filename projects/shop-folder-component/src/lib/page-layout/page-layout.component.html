@@ -25,16 +25,20 @@
             <div class="page-header bg-page-header text-page-header leading-page-header">
 
                 <!-- MENU CONTROL -->
-                <mat-icon matRipple (click)="drawer.toggle()">menu</mat-icon>
+                <mat-icon matRipple (click)="drawer.toggle()" *ngIf="!backURL">menu</mat-icon>
+                <mat-icon matRipple (click)="goBack()" *ngIf="backURL">arrow_back_ios</mat-icon>
 
                 <!-- TITLE -->
                 <div class="spacer">
                     {{ title }}
                 </div>
 
-                <!-- SEARCH CONTROL -->
+                <!-- ACTION CONTROL -->
                 <div>
+                    <ng-content select="[pageaction]"></ng-content>
+                    @if (!hideSearch) {
                     <mat-icon matRipple>search</mat-icon>
+                    }
                 </div>
             </div>
 
