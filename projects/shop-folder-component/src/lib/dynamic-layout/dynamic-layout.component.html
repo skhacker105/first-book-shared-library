@@ -1,6 +1,11 @@
 <lib-page-layout [title]="title" [backURL]="backURL" [hideSearch]="hideSearch">
     <ng-container pageaction>
-        <ng-content select="[pageaction]"></ng-content>
+        @if (selectMode) {
+            <ng-content select="[selectaction]"></ng-content>
+        }
+        @else {
+            <ng-content select="[gridaction]"></ng-content>
+        }
     </ng-container>
 
     <ng-container pagebody appSwipe (swipe)="handleSwipe($event)">
