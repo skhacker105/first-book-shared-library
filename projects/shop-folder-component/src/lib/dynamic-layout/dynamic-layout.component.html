@@ -8,9 +8,9 @@
         }
     </ng-container>
 
-    <ng-container pagebody appSwipe (swipe)="handleSwipe($event)">
+    <div pagebody class="pagebody" appSwipe (swipe)="handleSwipe($event)">
         <ng-content select="[pagebody]"></ng-content>
-    </ng-container>
+    </div>
 
     <ng-container pagefooter>
         <ng-content select="[pagefooter]"></ng-content>

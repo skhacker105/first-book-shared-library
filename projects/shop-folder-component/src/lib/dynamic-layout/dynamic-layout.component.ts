@@ -17,7 +17,6 @@ export class DynamicLayoutComponent {
   selectMode = false;
 
   handleSwipe(direction: number) {
-    this.selectMode = direction > 0 ? true : false;
-    alert(direction > 0 ? 'right' : 'left');
+    this.selectMode = direction < 0 ? true : false;
   }
 }
