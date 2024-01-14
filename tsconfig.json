@@ -6,6 +6,9 @@
       "shop-folder-component": [
         "./dist/shop-folder-component"
       ],
+      "shop-folder-core": [
+        "./dist/shop-folder-core"
+      ],
       "shop-folder-directive": [
         "./dist/shop-folder-directive"
       ],

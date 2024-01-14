@@ -1,18 +1,13 @@
 .dashboard-box-container {
-    padding: 10px;
     min-width: 100%;
-    padding-left: 5px;
-    padding-right: 5px;
 
     .dashboard-box {
-        border-radius: 10px;
-        box-shadow: 0px 5px 21px 0px #6363dc;
+        box-shadow: 0px 5px 21px 0px #00008f;
         display: flex;
 
         .title-container {
-            min-width: 100px;
+            min-width: 75px;
             padding: 10px;
-            border-radius: 10px;
             line-height: 25px;
             display: flex;
             flex-direction: column;
@@ -57,28 +52,53 @@
         }
 
         .action {
-            flex: 1 auto;
-            padding: 10px;
-            text-align: end;
             display: flex;
+            flex: 1 auto;
 
             &.expanded {
                 flex-direction: column;
 
-                ::ng-deep {
+                div:last-child {
+                    order: -1;
+                    padding-left: 12px;
+                }
 
-                    .mat-icon {
-                        margin: 0;
+                .row-action {
+                    text-align: center;
+                }
+            }
+
+            .projected {
+                flex: 1 auto;
+                padding: 10px;
+                display: flex;
+
+                &.expanded {
+                    flex-direction: column;
+
+                    ::ng-deep {
+
+                        .mat-icon {
+                            margin: 0;
+                        }
+
+                        div {
+                            padding-bottom: 5px;
+                        }
                     }
+                }
 
-                    .mat-icon:last-child {
-                        margin: auto;
-                        order: -1;
-                        margin-bottom: 10px;
+                ::ng-deep {
+                    .mat-icon {
+                        margin-left: 8px;
+                        margin-right: 8px;
+                        font-size: 20px;
+                        width: 20px;
+                        height: 20px;
                     }
 
                     div {
-                        padding-bottom: 5px;
+                        text-align: center;
                     }
                 }
             }
@@ -87,21 +107,10 @@
                 flex: 1 auto;
             }
 
-            ::ng-deep {
-                .mat-icon {
-                    margin-left: 10px;
-                    margin-right: 10px;
-                    font-size: 20px;
-                    width: 20px;
-                }
-
-                .mat-icon:last-child {
-                    margin-right: 0px;
-                }
-
-                div {
-                    text-align: center;
-                }
+            .row-action {
+                padding-left: 3px;
+                padding-right: 12px;
+                padding-top: 8px;
             }
         }
     }

@@ -17,11 +17,17 @@ echo :
 echo Select Library for build and publish
 :: echo css: for Styles
 echo cmp: for Component
+echo core: for Core
 echo log: for Logger
-set /p buildFor=[cmp/log/store/logo/directive/all]?:
+echo store: for Store
+echo logo: for Logo
+echo directive: for Directive
+echo all: for All
+set /p buildFor=[cmp/core/log/store/logo/directive/all]?:
 
 :: IF /i %buildFor%==css goto css
 IF /i %buildFor%==cmp goto component
+IF /i %buildFor%==core goto core
 IF /i %buildFor%==log goto logger
 IF /i %buildFor%==logo goto logo
 IF /i %buildFor%==store goto store
@@ -46,6 +52,33 @@ CALL npm publish && (echo Published Component) || (echo Error while publishing C
 :: update applications
 cd %sfHome%
 set selectedLibrary=shop-folder-component
+CALL updatepackage.bat %selectedLibrary% true
+cd %sfLogin%
+CALL updatepackage.bat %selectedLibrary% true
+cd %sfTodo%
+CALL updatepackage.bat %selectedLibrary% true
+cd %sfContact%
+CALL updatepackage.bat %selectedLibrary% true
+IF /i NOT %buildFor%==all goto libBuildPublishExit
+
+:: ================================================================================================
+:: ================================================================================================
+
+:: CORE
+:: =========
+:core
+cd %sharedLib%\projects\shop-folder-core
+CALL npm version patch
+cd %sharedLib%
+CALL ng build shop-folder-core --configuration=production
+cd %sharedLib%\dist\shop-folder-core
+CALL npm publish && (echo Published Core) || (echo Error while publishing Core)
+
+:: update applications
+cd %sharedLib%
+set selectedLibrary=shop-folder-core
+CALL updatepackage.bat %selectedLibrary% true
+cd %sfHome%
 CALL updatepackage.bat %selectedLibrary% true
 cd %sfLogin%
 CALL updatepackage.bat %selectedLibrary% true
