@@ -26,6 +26,7 @@ export * from './lib/shipping-logo.component';
 export * from './lib/sign-in-logo.component';
 export * from './lib/sign-out-logo.component';
 export * from './lib/todo-logo.component';
+export * from './lib/todo-backlog-logo.component';
 export * from './lib/transaction-logo.component';
 export * from './lib/vendor-logo.component';
 export * from './lib/waste-logo.component';
