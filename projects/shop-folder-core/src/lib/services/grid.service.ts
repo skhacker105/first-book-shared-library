@@ -67,6 +67,7 @@ export abstract class GridService<T> {
       columnDefs: this.selectedView.columnDefs,
       autoGroupColumnDef: this.selectedView.autoGroupColumnDef
     });
+    this.gridApi?.autoSizeAllColumns();
   }
 
   // ROW SELECTION

@@ -22,7 +22,9 @@
             </div>
         </mat-drawer>
         <mat-drawer-content>
-            <ng-container [ngTemplateOutlet]="pageTemplate"></ng-container>
+            <ng-container [ngTemplateOutlet]="pageTemplate" [ngTemplateOutletContext]="{
+                drawer: drawer
+            }"></ng-container>
         </mat-drawer-content>
     </mat-drawer-container>
     }
@@ -33,11 +35,12 @@
     }
 </div>
 
-<ng-template #pageTemplate>
+<ng-template #pageTemplate let-drawer="drawer">
     <!-- HEADER -->
     <div class="page-header bg-page-header text-page-header leading-page-header">
 
         <!-- MENU CONTROL -->
+        <mat-icon matRipple (click)="drawer.toggle()" *ngIf="drawer && !backURL && !hideDrawer">menu</mat-icon>
         <mat-icon matRipple (click)="goBack()" *ngIf="backURL">arrow_back_ios</mat-icon>
 
         <!-- TITLE -->
