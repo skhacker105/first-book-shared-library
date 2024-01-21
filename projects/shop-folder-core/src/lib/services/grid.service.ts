@@ -62,6 +62,11 @@ export abstract class GridService<T> {
   }
 
   updateSelectedView(view: IGridView) {
+    if (this.selectMode) {
+      this.resetRowSelection();
+      this.handleSelectModeChange(false);
+      this.gridApi.deselectAll()
+    }
     this.selectedView = view;
     this.gridApi?.updateGridOptions({
       columnDefs: this.selectedView.columnDefs,
@@ -79,6 +84,10 @@ export abstract class GridService<T> {
     const idx = this.selectedIds.indexOf(id);
     if (!selected && idx >= 0) this.selectedIds.splice(idx, 1);
     else if (selected && idx < 0) this.selectedIds.push(id);
+  }
+
+  onSelectionChanged() {
+    this.selectedIds = this.gridApi?.getSelectedNodes().map(node => node.data.id ? node.data.id : 0)
   }
 
   // GRID
