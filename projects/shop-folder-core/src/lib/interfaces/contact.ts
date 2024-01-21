@@ -11,7 +11,7 @@ export interface IContact extends IBase, ISelectable {
     otherPhoneNumbers: string[];
     openingBalance: number;
     isMe: boolean;
-    checkIfItIsMe(phoneNumbers: string[]): boolean;
+    checkIfItIsMe(phoneNumbers: string): boolean;
     compare(ct: IContact): ICompareOutput;
     getName(): string;
 }

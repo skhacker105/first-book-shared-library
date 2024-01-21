@@ -18,4 +18,5 @@ export interface IAddress extends IBase, ISelectable {
     city: string;
     state: string;
     pin: string;
+    getFullAddress(): string;
 }

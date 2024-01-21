@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PageLayoutComponent } from '../page-layout/page-layout.component';
 import { SwipeDirective } from 'shop-folder-directive';
 
@@ -13,10 +13,12 @@ export class DynamicLayoutComponent {
   @Input() title = '';
   @Input() backURL = '';
   @Input() hideSearch = false;
+  @Output() selectModeChange = new EventEmitter<boolean>();
 
   selectMode = false;
 
   handleSwipe(direction: number) {
     this.selectMode = direction < 0 ? true : false;
+    this.selectModeChange.emit(this.selectMode);
   }
 }
