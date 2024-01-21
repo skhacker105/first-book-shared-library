@@ -1,17 +1,27 @@
+import { GridApi, GridOptions } from "ag-grid-community";
 import { IGridView } from "../interfaces";
 import { ActivatedRoute, } from "@angular/router";
 
-export class GridService<T> {
+export abstract class GridService<T> {
+
+  // GRID
   data: T[] = [];
   gridViews: IGridView[];
+  protected gridApi!: GridApi;
+  grid: GridOptions = {};
+  defaultColDef: any = {};
+  allExpanded = true;
 
+  // ROW SELECTION
   selectMode = false;
   selectedView: IGridView | undefined;
   selectedIds: number[] = [];
-  
+
+  // OTHERS
   isDataLoading = false;
   viewParameterName = 'view';
 
+  // GETTER
   get enableSelectedAction(): boolean {
     return this.selectedIds.length > 0;
   }
@@ -22,6 +32,8 @@ export class GridService<T> {
     if (!this.loadViewFromParameter(route, viewParam)) this.loadDefaultView();
   }
 
+
+  // COLUMN VIEW
   setDefaultIfNotFound(): void {
     if (this.gridViews.length === 0) return;
     if (this.gridViews.find(cd => cd.isDefault)) return;
@@ -34,7 +46,7 @@ export class GridService<T> {
 
     const paramName = route.snapshot.paramMap.get(this.viewParameterName);
     if (!paramName) return false;
-    
+
     let paramView = this.gridViews.find(view => view.viewName === paramName);
     if (!paramView) return false;
 
@@ -51,8 +63,13 @@ export class GridService<T> {
 
   updateSelectedView(view: IGridView) {
     this.selectedView = view;
+    this.gridApi?.updateGridOptions({
+      columnDefs: this.selectedView.columnDefs,
+      autoGroupColumnDef: this.selectedView.autoGroupColumnDef
+    });
   }
 
+  // ROW SELECTION
   resetRowSelection() {
     this.selectedIds = [];
   }
@@ -61,5 +78,34 @@ export class GridService<T> {
     const idx = this.selectedIds.indexOf(id);
     if (!selected && idx >= 0) this.selectedIds.splice(idx, 1);
     else if (selected && idx < 0) this.selectedIds.push(id);
+  }
+
+  // GRID
+  handleSelectModeChange(selectMode: boolean) {
+    if (selectMode != this.selectMode) {
+      this.selectMode = selectMode;
+      if (this.selectMode) this.handleSelectModeOn();
+      else this.handleSelectModeOff();
+    }
+  }
+
+  abstract handleSelectModeOn(): void;
+  abstract handleSelectModeOff(): void;
+
+  onGridReady(params: any) {
+    this.gridApi = params.api;
+    this.gridApi.updateGridOptions({
+      autoGroupColumnDef: this.selectedView?.autoGroupColumnDef
+    });
+  }
+
+  collapseAll() {
+    this.allExpanded = false;
+    this.gridApi.collapseAll();
+  }
+
+  expandAll() {
+    this.allExpanded = true;
+    this.gridApi.expandAll();
   }
 }
