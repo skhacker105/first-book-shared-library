@@ -17,6 +17,7 @@ export class PageLayoutComponent {
   @Input() title = '';
   @Input() backURL = '';
   @Input() hideSearch = false;
+  @Input() hideDrawer = false;
 
   constructor(private router: Router) { }
 

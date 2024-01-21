@@ -1,4 +1,6 @@
 <div class="page-layout-bg">
+
+    @if (!hideDrawer) {
     <mat-drawer-container class="page-layout-container">
 
         <mat-drawer #drawer mode="over" class="page-layout-drawer">
@@ -20,38 +22,45 @@
             </div>
         </mat-drawer>
         <mat-drawer-content>
-
-            <!-- HEADER -->
-            <div class="page-header bg-page-header text-page-header leading-page-header">
-
-                <!-- MENU CONTROL -->
-                <mat-icon matRipple (click)="drawer.toggle()" *ngIf="!backURL">menu</mat-icon>
-                <mat-icon matRipple (click)="goBack()" *ngIf="backURL">arrow_back_ios</mat-icon>
-
-                <!-- TITLE -->
-                <div class="spacer">
-                    {{ title }}
-                </div>
-
-                <!-- ACTION CONTROL -->
-                <div>
-                    <ng-content select="[pageaction]"></ng-content>
-                    @if (!hideSearch) {
-                    <mat-icon matRipple>search</mat-icon>
-                    }
-                </div>
-            </div>
-
-            <!-- BODY -->
-            <div class="page-body bg-page-content text-page-content leading-page-content">
-                <ng-content select="[pagebody]"></ng-content>
-            </div>
-
-            <!-- FOOTER -->
-            <div class="page-footer bg-page-footer text-page-footer leading-page-footer">
-                <ng-content select="[pagefooter]"></ng-content>
-            </div>
-
+            <ng-container [ngTemplateOutlet]="pageTemplate"></ng-container>
         </mat-drawer-content>
     </mat-drawer-container>
+    }
+    @else {
+    <div class="page-layout-container">
+        <ng-container [ngTemplateOutlet]="pageTemplate"></ng-container>
+    </div>
+    }
 </div>
+
+<ng-template #pageTemplate>
+    <!-- HEADER -->
+    <div class="page-header bg-page-header text-page-header leading-page-header">
+
+        <!-- MENU CONTROL -->
+        <mat-icon matRipple (click)="goBack()" *ngIf="backURL">arrow_back_ios</mat-icon>
+
+        <!-- TITLE -->
+        <div class="spacer">
+            {{ title }}
+        </div>
+
+        <!-- ACTION CONTROL -->
+        <div>
+            <ng-content select="[pageaction]"></ng-content>
+            @if (!hideSearch) {
+            <mat-icon matRipple>search</mat-icon>
+            }
+        </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="page-body bg-page-content text-page-content leading-page-content">
+        <ng-content select="[pagebody]"></ng-content>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="page-footer bg-page-footer text-page-footer leading-page-footer">
+        <ng-content select="[pagefooter]"></ng-content>
+    </div>
+</ng-template>
