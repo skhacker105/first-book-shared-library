@@ -6,6 +6,7 @@ export * from './addresses';
 export * from './assets';
 export * from './attendance';
 export * from './catalogs';
+export * from './contact-types';
 export * from './contact';
 export * from './contactGroupMessages';
 export * from './contactGroups';

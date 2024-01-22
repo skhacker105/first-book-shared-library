@@ -1,6 +1,6 @@
 export interface ISelectable {
     isSelected: boolean;
-    markSelected(): void;
-    markUnselected(): void;
-    toggleSelection(): void;
+    markSelected?(): void;
+    markUnselected?(): void;
+    toggleSelection?(): void;
 }

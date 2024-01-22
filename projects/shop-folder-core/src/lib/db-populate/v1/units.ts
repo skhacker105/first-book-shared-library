@@ -1,7 +1,8 @@
-import { IUnit, UnitTypes } from "../interfaces";
+import { IUnit, UnitTypes } from "../../interfaces";
 
 export const DEFAULT_UNITS: IUnit[] = [
     {
+        id: 1,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.area,
@@ -9,6 +10,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 2,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.area,
@@ -16,6 +18,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 3,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.length,
@@ -23,6 +26,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 4,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.length,
@@ -30,6 +34,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 5,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.length,
@@ -37,6 +42,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 6,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.length,
@@ -44,6 +50,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 7,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.packing,
@@ -51,6 +58,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 8,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.packing,
@@ -58,6 +66,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 9,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.packing,
@@ -65,6 +74,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 10,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.packing,
@@ -72,6 +82,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 11,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.quantity,
@@ -79,6 +90,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 12,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.quantity,
@@ -86,6 +98,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 13,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.quantity,
@@ -93,6 +106,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 14,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.time,
@@ -100,6 +114,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 15,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.time,
@@ -107,6 +122,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 16,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.time,
@@ -114,6 +130,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 17,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.volume,
@@ -121,6 +138,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 18,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.volume,
@@ -128,6 +146,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 19,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.volume,
@@ -135,6 +154,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 20,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.weight,
@@ -142,6 +162,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 21,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.weight,
@@ -149,6 +170,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 22,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.weight,
@@ -156,6 +178,7 @@ export const DEFAULT_UNITS: IUnit[] = [
         description: ''
     },
     {
+        id: 24,
         createdBy: 0,
         createdOn: new Date(),
         type: UnitTypes.weight,

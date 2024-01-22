@@ -3,6 +3,6 @@
  */
 
 export * from './lib/animations/';
-export * from './lib/constants/';
+export * from './lib/db-populate';
 export * from './lib/interfaces/';
 export * from './lib/services/';

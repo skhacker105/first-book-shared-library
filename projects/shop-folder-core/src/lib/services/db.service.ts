@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import Dexie, { Table } from 'dexie';
-import { IAddress, IAssets, IAttendance, ICatalogs, IContact, IContactGroup, IContactGroupMessage, INotifications, IOrder, IOrderItems, IPrice, IProduct, IRawMaterial, IStore, ITodo, ITodoGroup, ITransaction, IUnit, addressConfig, assetConfig, attendanceConfig, catalogConfig, contactConfig, contactGroupConfig, contactGroupMessageConfig, notificationsConfig, orderConfig, orderItemConfig, pricesConfig, productConfig, rawMaterialConfig, sotoreConfig, todoConfig, todoGroupConfig, transactionConfig, unitsConfig } from '../interfaces';
-import { DEFAULT_UNITS } from '../constants';
+import { IAddress, IAssets, IAttendance, ICatalogs, IContact, IContactGroup, IContactGroupMessage, IContactType, INotifications, IOrder, IOrderItems, IPrice, IProduct, IRawMaterial, IStore, ITodo, ITodoGroup, ITransaction, IUnit, addressConfig, assetConfig, attendanceConfig, catalogConfig, contactConfig, contactGroupConfig, contactGroupMessageConfig, contactTypeConfig, notificationsConfig, orderConfig, orderItemConfig, pricesConfig, productConfig, rawMaterialConfig, sotoreConfig, todoConfig, todoGroupConfig, transactionConfig, unitsConfig } from '../interfaces';
+import { DEFAULT_UNITS } from '../db-populate';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LocalStorageManager, LocalStorageManagerService } from './';
 import { IFolder } from '../interfaces/_folder';
+import { DEFAULT_CONTACT_TYPES } from '../db-populate/v1/contact-types';
 
 @Injectable({
   providedIn: 'root'
@@ -103,6 +104,7 @@ export class AppDB extends Dexie {
   attendance!: Table<IAttendance, number>;
   assets!: Table<IAssets, number>;
   catalogs!: Table<ICatalogs, number>;
+  contactTypes!: Table<IContactType, number>;
   contact!: Table<IContact, number>;
   contactGroupMessages!: Table<IContactGroupMessage, number>;
   contactGroups!: Table<IContactGroup, number>;
@@ -130,6 +132,7 @@ export class AppDB extends Dexie {
       attendanceConfig,
       assetConfig,
       catalogConfig,
+      contactTypeConfig,
       contactConfig,
       contactGroupMessageConfig,
       contactGroupConfig,
@@ -149,5 +152,6 @@ export class AppDB extends Dexie {
 
   populateV1() {
     this.units.bulkAdd(DEFAULT_UNITS);
+    this.contactTypes.bulkAdd(DEFAULT_CONTACT_TYPES);
   }
 }
