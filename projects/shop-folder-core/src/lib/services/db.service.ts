@@ -12,7 +12,7 @@ import { DEFAULT_CONTACT_TYPES } from '../db-populate/v1/contact-types';
 })
 export class DBService {
 
-  myFolder: IFolder = { name: 'MyFolder' };
+  myFolder: IFolder = { id: 0, name: 'MyFolder', isSelected: true };
   private _allFolders = new BehaviorSubject<IFolder[]>([this.myFolder]);
   private _selectedFolder = this.myFolder;
   private _selectedDB: BehaviorSubject<AppDB>;
@@ -66,7 +66,7 @@ export class DBService {
     this.selectedDB = this._selectedDB.asObservable();
   }
 
-  getDB(folder: IFolder): AppDB {
+  private getDB(folder: IFolder): AppDB {
     return new AppDB(folder);
   }
 
@@ -88,12 +88,10 @@ export class DBService {
   changeFolder(folder: IFolder): void {
     if (!this.folderExists(folder)) throw new Error('Folder do not exists');
 
+    if (this._selectedFolder) this._selectedFolder.isSelected = false;
+    folder.isSelected = true;
     this._selectedFolder = folder;
     this._selectedDB.next(this.getDB(folder));
-  }
-
-  isSelected(folder: IFolder): boolean {
-    return folder.name === this._selectedFolder.name;
   }
 
 }

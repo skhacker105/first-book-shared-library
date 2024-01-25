@@ -14,6 +14,7 @@ export class DynamicLayoutComponent {
   @Input() backURL = '';
   @Input() hideSearch = false;
   @Input() hideDrawer = false;
+  @Input() hideFilter = true;
   @Output() selectModeChange = new EventEmitter<boolean>();
 
   selectMode = false;

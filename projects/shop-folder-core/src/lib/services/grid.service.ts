@@ -1,8 +1,11 @@
 import { GridApi, GridOptions } from "ag-grid-community";
 import { IGridView } from "../interfaces";
 import { ActivatedRoute, } from "@angular/router";
+import { Directive, OnDestroy } from "@angular/core";
+import { Subject } from "rxjs";
 
-export abstract class GridService<T> {
+@Directive()
+export abstract class GridService<T> implements OnDestroy {
 
   // GRID
   data: T[] = [];
@@ -20,6 +23,7 @@ export abstract class GridService<T> {
   // OTHERS
   isDataLoading = false;
   viewParameterName = 'view';
+  isComponentActive = new Subject<boolean>();
 
   // GETTER
   get enableSelectedAction(): boolean {
@@ -117,5 +121,11 @@ export abstract class GridService<T> {
   expandAll() {
     this.allExpanded = true;
     this.gridApi.expandAll();
+  }
+
+  // On Destroy
+  ngOnDestroy(): void {
+    this.isComponentActive.next(true);
+    this.isComponentActive.complete();
   }
 }
