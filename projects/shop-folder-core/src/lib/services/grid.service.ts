@@ -3,6 +3,9 @@ import { IGridView } from "../interfaces";
 import { ActivatedRoute, } from "@angular/router";
 import { Directive, OnDestroy } from "@angular/core";
 import { Subject } from "rxjs";
+import { Collection, Table } from "dexie";
+import { FilterFunction } from "../types";
+
 
 @Directive()
 export abstract class GridService<T> implements OnDestroy {
@@ -14,6 +17,14 @@ export abstract class GridService<T> implements OnDestroy {
   grid: GridOptions = {};
   defaultColDef: any = {};
   allExpanded = true;
+
+  // DEXIES
+  pageSize = 10;
+  selectedTable: Table<T, number> | undefined;
+  private defaultFilteredCollection?: FilterFunction<T>;
+  private extendedFilteredCollection?: (FilterFunction<T>)[];
+  private defaultOrderBy: { column: string, order: 'asc' | 'desc' } | undefined;
+  private finalQuery: Collection<T, number> | undefined;
 
   // ROW SELECTION
   selectMode = false;
@@ -30,10 +41,11 @@ export abstract class GridService<T> implements OnDestroy {
     return this.selectedIds.length > 0;
   }
 
-  constructor(allViews: IGridView[], route?: ActivatedRoute, viewParam?: string) {
+  // CONSTRUCTOR
+  constructor(allViews: IGridView[], route?: ActivatedRoute) {
     this.gridViews = allViews;
     this.setDefaultIfNotFound();
-    if (!this.loadViewFromParameter(route, viewParam)) this.loadDefaultView();
+    if (!this.loadViewFromParameter(route)) this.loadDefaultView();
   }
 
 
@@ -44,9 +56,8 @@ export abstract class GridService<T> implements OnDestroy {
     this.gridViews[0].isDefault = true;
   }
 
-  loadViewFromParameter(route?: ActivatedRoute, viewParam?: string): boolean {
+  loadViewFromParameter(route?: ActivatedRoute): boolean {
     if (!route) return false;
-    if (viewParam) this.viewParameterName = viewParam;
 
     const paramName = route.snapshot.paramMap.get(this.viewParameterName);
     if (!paramName) return false;
@@ -78,6 +89,73 @@ export abstract class GridService<T> implements OnDestroy {
     });
     this.gridApi?.autoSizeAllColumns();
   }
+
+  // Indexed DB - DEXIE
+  useTable(table: Table<T, number>) {
+    this.selectedTable = table;
+  }
+
+  setPageSize(pageSize: number) {
+    this.pageSize = pageSize;
+  }
+
+  setOrderBy(column: string, order: 'asc' | 'desc') {
+    this.defaultOrderBy = { column, order };
+  }
+
+  setDefaultFilters(filterFunction: FilterFunction<T>) {
+    this.defaultFilteredCollection = filterFunction;
+    this.updateQuery();
+  }
+
+  updateFilters(filterFunctions: (FilterFunction<T>)[]) {
+    this.extendedFilteredCollection = filterFunctions;
+    this.updateQuery();
+  }
+
+  private updateQuery() {
+    if (!this.selectedTable) return;
+
+    let c = this.selectedTable.toCollection();
+
+    // apply order by
+    if (this.defaultOrderBy) {
+      c = this.selectedTable.orderBy(this.defaultOrderBy.column);
+      if (this.defaultOrderBy.order === 'desc') c = c.reverse();
+    }
+
+    // apply default filter
+    if (this.defaultFilteredCollection) {
+      c = this.defaultFilteredCollection(c);
+    }
+
+    // apply extended filter
+    if (this.extendedFilteredCollection) {
+      this.extendedFilteredCollection.forEach(filter => {
+        c = filter(c);
+      });
+    }
+
+    this.finalQuery = c;
+  }
+
+  async refreshData() {
+    // Throw error if no table is present
+    if (!this.selectedTable) throw new Error('No table is configured.');
+
+    const c = this.finalQuery ? this.finalQuery : this.selectedTable.toCollection();
+    this.data = await c.limit(this.pageSize).toArray();
+  }
+
+  async nextPage() {
+    // Throw error if no table is present
+    if (!this.selectedTable) throw new Error('No table is configured.');
+
+    const c = this.finalQuery ? this.finalQuery : this.selectedTable.toCollection();
+    const newData = await c.offset(this.data.length).limit(this.pageSize).toArray();
+    if (newData) newData.forEach(d => this.data.push(d));
+  }
+
 
   // ROW SELECTION
   resetRowSelection() {
@@ -113,6 +191,8 @@ export abstract class GridService<T> implements OnDestroy {
     });
   }
 
+
+  // Expand Collapse
   collapseAll() {
     this.allExpanded = false;
     this.gridApi.collapseAll();

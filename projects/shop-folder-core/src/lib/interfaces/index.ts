@@ -1,4 +1,5 @@
 export * from './_base';
+export * from './_filters';
 export * from './_folder';
 export * from './_grid-views';
 export * from './_selectable';
@@ -10,8 +11,6 @@ export * from './contact-types';
 export * from './contact';
 export * from './contactGroupMessages';
 export * from './contactGroups';
-export * from './db-filter.interface';
-export * from './db-pagination.interface';
 export * from './notifications';
 export * from './orderItems';
 export * from './orders';

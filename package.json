@@ -28,7 +28,7 @@
     "dexie": "^3.2.4",
     "rxjs": "~7.8.0",
     "shop-folder-component": "^0.0.15",
-    "shop-folder-core": "^0.0.40",
+    "shop-folder-core": "^0.0.61",
     "shop-folder-directive": "^0.0.3",
     "shop-folder-logger": "^0.0.1",
     "tslib": "^2.3.0",
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.0.7",
-    "@angular/cli": "^17.0.6",
+    "@angular/cli": "^17.1.1",
     "@angular/compiler-cli": "^17.0.0",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.1.0",

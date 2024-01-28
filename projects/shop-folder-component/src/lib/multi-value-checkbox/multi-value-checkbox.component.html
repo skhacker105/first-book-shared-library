@@ -1,0 +1,7 @@
+@if (filter) {
+    <mat-selection-list #mvc (selectionChange)="selectionChanged(mvc.selectedOptions)">
+        @for (option of filter.options; track option.label) {
+            <mat-list-option [selected]="option.isSelected" [value]="option">{{ option.label }}</mat-list-option>
+        }
+    </mat-selection-list>
+}

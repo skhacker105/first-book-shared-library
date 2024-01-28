@@ -23,6 +23,7 @@ export class DBService {
 
   public allFolders = this._allFolders.asObservable();
   public selectedDB: Observable<AppDB>;
+  get currentDB(): AppDB { return this._selectedDB.value }
 
 
   // Entities that are not commented are not yet configured
@@ -103,7 +104,7 @@ export class AppDB extends Dexie {
   assets!: Table<IAssets, number>;
   catalogs!: Table<ICatalogs, number>;
   contactTypes!: Table<IContactType, number>;
-  contact!: Table<IContact, number>;
+  contacts!: Table<IContact, number>;
   contactGroupMessages!: Table<IContactGroupMessage, number>;
   contactGroups!: Table<IContactGroup, number>;
   notifications!: Table<INotifications, number>;
