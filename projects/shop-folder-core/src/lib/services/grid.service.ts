@@ -5,6 +5,7 @@ import { Directive, OnDestroy } from "@angular/core";
 import { Subject } from "rxjs";
 import { Collection, Table } from "dexie";
 import { FilterFunction } from "../types";
+import { ISortBy } from "../interfaces/_sort";
 
 
 @Directive()
@@ -14,7 +15,11 @@ export abstract class GridService<T> implements OnDestroy {
   data: T[] = [];
   gridViews: IGridView[];
   protected gridApi!: GridApi;
-  grid: GridOptions = {};
+  grid: GridOptions = {
+    autoSizeStrategy: {
+      type: 'fitGridWidth'
+    }
+  };
   defaultColDef: any = {};
   allExpanded = true;
 
@@ -23,7 +28,7 @@ export abstract class GridService<T> implements OnDestroy {
   selectedTable: Table<T, number> | undefined;
   private defaultFilteredCollection?: FilterFunction<T>;
   private extendedFilteredCollection?: (FilterFunction<T>)[];
-  private defaultOrderBy: { column: string, order: 'asc' | 'desc' } | undefined;
+  private defaultOrderBy: ISortBy | undefined;
   private finalQuery: Collection<T, number> | undefined;
 
   // ROW SELECTION
@@ -99,18 +104,16 @@ export abstract class GridService<T> implements OnDestroy {
     this.pageSize = pageSize;
   }
 
-  setOrderBy(column: string, order: 'asc' | 'desc') {
-    this.defaultOrderBy = { column, order };
+  setSortBy(sortBy: ISortBy) {
+    this.defaultOrderBy = sortBy;
   }
 
   setDefaultFilters(filterFunction: FilterFunction<T>) {
     this.defaultFilteredCollection = filterFunction;
-    this.updateQuery();
   }
 
   updateFilters(filterFunctions: (FilterFunction<T>)[]) {
     this.extendedFilteredCollection = filterFunctions;
-    this.updateQuery();
   }
 
   private updateQuery() {
@@ -140,6 +143,7 @@ export abstract class GridService<T> implements OnDestroy {
   }
 
   async refreshData() {
+    this.updateQuery();
     // Throw error if no table is present
     if (!this.selectedTable) throw new Error('No table is configured.');
 

@@ -28,7 +28,7 @@
     "dexie": "^3.2.4",
     "rxjs": "~7.8.0",
     "shop-folder-component": "^0.0.15",
-    "shop-folder-core": "^0.0.61",
+    "shop-folder-core": "^0.0.67",
     "shop-folder-directive": "^0.0.3",
     "shop-folder-logger": "^0.0.1",
     "tslib": "^2.3.0",

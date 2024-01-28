@@ -3,6 +3,7 @@ export * from './_filters';
 export * from './_folder';
 export * from './_grid-views';
 export * from './_selectable';
+export * from './_sort';
 export * from './addresses';
 export * from './assets';
 export * from './attendance';
