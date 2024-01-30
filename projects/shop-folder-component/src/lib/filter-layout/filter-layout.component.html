@@ -2,51 +2,52 @@
 
     <div class="names">
 
-        <mat-list role="list">
-            @for (filter of filters; track filter.name; let idx = $index) {
-                <mat-list-item (click)="changeFilter(idx, filter)" [ngClass]="{
-                    'bg-selected-row text-selected-row': filter.name === selectedFilter?.name
-                }">{{ filter.name }}</mat-list-item>
-            }
-        </mat-list>
+        @for (filter of filters; track filter.name; let idx = $index) {
+            <div (click)="changeFilter(idx, filter)" class="name" [ngClass]="{
+                        'bg-selected-row text-selected-row': filter.name === selectedFilter?.name
+                    }">
+                {{ filter.name }}
+            </div>
+        }
 
     </div>
 
     <div class="details">
         @if (selectedFilter) {
 
-            <!-- Description -->
-            <div class="description">
-                <div class="title">
-                    {{ selectedFilter.description }}
-                </div>
-                <div class="action">
-                    <button mat-icon-button (click)="handleCancel()">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                </div>
+        <!-- Description -->
+        <div class="description">
+            <div class="title">
+                {{ selectedFilter.description }}
             </div>
-
-            <div class="filters">
-
-                <!-- show details -->
-                @if (selectedFilter.filterType === 'multiValue' && selectedFilter.type === 'checkbox') {
-                    <lib-multi-value-checkbox [filter]="selectedFilter" (onSelectionChange)="updateFilterFunction($event)"></lib-multi-value-checkbox>
-                } @else if (selectedFilter.filterType === 'multiValue' && selectedFilter.type === 'chip') {
-                    <lib-multi-value-chip [filter]="selectedFilter" (onSelectionChange)="updateFilterFunction($event)"></lib-multi-value-chip>
-                } @else if (selectedFilter.filterType === 'rangeValue') {
-                    <lib-range-value [filter]="selectedFilter"></lib-range-value>
-                }
-
-            </div>
-
             <div class="action">
-                <button mat-raised-button (click)="handleCancel()">Cancel</button>
-                &nbsp;
-                <button mat-raised-button color="primary" (click)="applyFilter()">Apply</button>
+                <mat-icon (click)="handleCancel()">close</mat-icon>
             </div>
+        </div>
+
+        <div class="filters">
+
+            <!-- show details -->
+            @if (selectedFilter.filterType === 'multiValue' && selectedFilter.type === 'checkbox') {
+            <lib-multi-value-checkbox [filter]="selectedFilter"
+                (onSelectionChange)="updateFilterFunction($event)"></lib-multi-value-checkbox>
+            } @else if (selectedFilter.filterType === 'multiValue' && selectedFilter.type === 'chip') {
+            <lib-multi-value-chip [filter]="selectedFilter"
+                (onSelectionChange)="updateFilterFunction($event)"></lib-multi-value-chip>
+            } @else if (selectedFilter.filterType === 'rangeValue') {
+            <lib-range-value [filter]="selectedFilter"></lib-range-value>
+            }
+
+        </div>
+
+        <div class="action">
+            <div class="spacer"></div>
+            <button mat-raised-button (click)="handleCancel()">Cancel</button>
+            &nbsp;
+            <button mat-raised-button color="primary" (click)="applyFilter()">Apply</button>
+        </div>
         } @else {
-            No Filter Selected;
+        No Filter Selected;
         }
     </div>
 </div>

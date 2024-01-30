@@ -3,13 +3,22 @@
     display: flex;
 
     .names {
-        height: 100%;
+        height: calc(50vh + 50px);
         min-width: 100px;
         max-width: 35%;
         display: flex;
         flex-direction: column;
         overflow-y: auto;
         border-right: solid 1px #efefef;
+
+        .name {
+            height: 38px;
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            border-top: solid 1px #efefef;
+            width: 100%;
+        }
     }
 
     .details {
@@ -23,6 +32,7 @@
             height: 48px;
             max-height: 150px;
             display: flex;
+            border-bottom: solid 1px #efefef;
 
             .title {
                 flex: 1 auto;
@@ -32,7 +42,8 @@
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
-                max-width: calc(100vw - 170px);
+                max-width: calc(100vw - 135px);
+                font-weight: bold;
             }
         }
 
@@ -40,15 +51,25 @@
             width: 100%;
             height: calc(100% - 100px);
             overflow: auto;
+            padding-left: 5px;
+            padding-top: 5px;
         }
 
         .action {
             display: flex;
             padding-top: 10px;
 
-            button {
-                margin-left: auto;
+            .spacer {
+                flex: 1 auto;
             }
         }
+    }
+}
+
+::ng-deep {
+    .mat-bottom-sheet-container {
+        padding-right: 5px !important;
+        padding-left: 0px !important;
+        padding-top: 5px !important;
     }
 }
