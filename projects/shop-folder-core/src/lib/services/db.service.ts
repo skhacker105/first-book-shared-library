@@ -99,6 +99,7 @@ export class DBService {
 
 
 export class AppDB extends Dexie {
+  folder: IFolder;
   addresses!: Table<IAddress, number>;
   attendance!: Table<IAttendance, number>;
   assets!: Table<IAssets, number>;
@@ -121,6 +122,7 @@ export class AppDB extends Dexie {
 
   constructor(folder: IFolder) {
     super(folder.name);
+    this.folder = folder;
     this.version(1).stores(this.collectoV1TablesConfig());
     this.on('populate', () => this.populateV1());
   }

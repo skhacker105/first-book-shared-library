@@ -1,0 +1,19 @@
+<mat-card class="dialog-container">
+    <mat-card-header>
+        @if (config.matIcon) {
+            <mat-icon>{{ config.matIcon }}</mat-icon>
+        }
+        <mat-card-title> {{ config.title }} </mat-card-title>
+        <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+    </mat-card-header>
+    <mat-card-content>
+        <p>
+            {{ config.message }}
+        </p>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-button  mat-dialog-close>CANCEL</button>
+        &nbsp;
+        <button mat-raised-button mat-dialog-close [mat-dialog-close]="true" [color]="config.color">{{ config.okDisplay }}</button>
+    </mat-card-actions>
+</mat-card>

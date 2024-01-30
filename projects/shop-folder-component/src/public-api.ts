@@ -2,6 +2,7 @@
  * Public API Surface of shop-folder-component
  */
 
+export * from './lib/confirmation-dialog/confirmation-dialog.component';
 export * from './lib/dashboard-box/dashboard-box.component';
 export * from './lib/dynamic-layout/dynamic-layout.component';
 export * from './lib/error-page/error-page.component';

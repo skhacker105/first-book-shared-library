@@ -15,9 +15,9 @@ export class DynamicLayoutComponent {
   @Input() hideSearch = false;
   @Input() hideDrawer = false;
   @Input() hideFilter = true;
+  @Input() selectMode = false;
   @Output() selectModeChange = new EventEmitter<boolean>();
 
-  selectMode = false;
 
   handleSwipe(direction: number) {
     this.selectMode = direction < 0 ? true : false;

@@ -1,11 +1,12 @@
 import { GridApi, GridOptions } from "ag-grid-community";
-import { IGridView } from "../interfaces";
+import { IConfirmation, IGridView, IUser } from "../interfaces";
 import { ActivatedRoute, } from "@angular/router";
 import { Directive, OnDestroy } from "@angular/core";
 import { Subject } from "rxjs";
 import { Collection, Table } from "dexie";
 import { FilterFunction } from "../types";
 import { ISortBy } from "../interfaces/_sort";
+import { UserService } from "./user.service";
 
 
 @Directive()
@@ -40,6 +41,10 @@ export abstract class GridService<T> implements OnDestroy {
   isDataLoading = false;
   viewParameterName = 'view';
   isComponentActive = new Subject<boolean>();
+  confirmDeleteConfig: IConfirmation = {
+    color: 'warn',
+    okDisplay: 'DELETE'
+  };
 
   // GETTER
   get enableSelectedAction(): boolean {
@@ -47,10 +52,16 @@ export abstract class GridService<T> implements OnDestroy {
   }
 
   // CONSTRUCTOR
-  constructor(allViews: IGridView[], route?: ActivatedRoute) {
-    this.gridViews = allViews;
+  constructor(public params: {
+    allViews: IGridView[],
+    route?: ActivatedRoute,
+    userService: UserService
+  },
+    public TCreator?: { new(deviceUser: IUser, obj: any): T }
+  ) {
+    this.gridViews = params.allViews;
     this.setDefaultIfNotFound();
-    if (!this.loadViewFromParameter(route)) this.loadDefaultView();
+    if (!this.loadViewFromParameter(params.route)) this.loadDefaultView();
   }
 
 
@@ -148,7 +159,7 @@ export abstract class GridService<T> implements OnDestroy {
     if (!this.selectedTable) throw new Error('No table is configured.');
 
     const c = this.finalQuery ? this.finalQuery : this.selectedTable.toCollection();
-    this.data = await c.limit(this.pageSize).toArray();
+    this.data = (await c.limit(this.pageSize).toArray()).map(d => this.TCreator ? new this.TCreator(this.params.userService.getUser(), d) : d);
   }
 
   async nextPage() {
@@ -157,7 +168,7 @@ export abstract class GridService<T> implements OnDestroy {
 
     const c = this.finalQuery ? this.finalQuery : this.selectedTable.toCollection();
     const newData = await c.offset(this.data.length).limit(this.pageSize).toArray();
-    if (newData) newData.forEach(d => this.data.push(d));
+    if (newData) newData.forEach(d => this.TCreator ? this.data.push(new this.TCreator(this.params.userService.getUser(), d)) : this.data.push(d));
   }
 
 
@@ -174,6 +185,12 @@ export abstract class GridService<T> implements OnDestroy {
 
   onSelectionChanged() {
     this.selectedIds = this.gridApi?.getSelectedNodes().map(node => node.data.id ? node.data.id : 0)
+  }
+
+  getSelectedData(): T[] {
+    if (this.selectedIds.length === 0) return [];
+
+    return this.data.filter((d: any) => this.selectedIds.indexOf(d.id));
   }
 
   // GRID
