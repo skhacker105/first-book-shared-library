@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PageLayoutComponent } from '../page-layout/page-layout.component';
 import { SwipeDirective } from 'shop-folder-directive';
+import { FilterFunction, anyFilters } from 'shop-folder-core';
 
 @Component({
   selector: 'lib-dynamic-layout',
@@ -16,6 +17,8 @@ export class DynamicLayoutComponent {
   @Input() hideDrawer = false;
   @Input() hideFilter = true;
   @Input() selectMode = false;
+  @Input() filters: anyFilters[] | undefined
+  @Output() onFilterUpdate = new EventEmitter<FilterFunction<any>[]>();
   @Output() selectModeChange = new EventEmitter<boolean>();
 
 

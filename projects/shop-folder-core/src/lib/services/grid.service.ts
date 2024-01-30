@@ -6,7 +6,6 @@ import { Subject } from "rxjs";
 import { Collection, Table } from "dexie";
 import { FilterFunction } from "../types";
 import { ISortBy } from "../interfaces/_sort";
-import { UserService } from "./user.service";
 
 
 @Directive()
@@ -55,9 +54,8 @@ export abstract class GridService<T> implements OnDestroy {
   constructor(public params: {
     allViews: IGridView[],
     route?: ActivatedRoute,
-    userService: UserService
-  },
-    public TCreator?: { new(deviceUser: IUser, obj: any): T }
+    objectCreator?: (obj: any) => T
+  }
   ) {
     this.gridViews = params.allViews;
     this.setDefaultIfNotFound();
@@ -159,7 +157,7 @@ export abstract class GridService<T> implements OnDestroy {
     if (!this.selectedTable) throw new Error('No table is configured.');
 
     const c = this.finalQuery ? this.finalQuery : this.selectedTable.toCollection();
-    this.data = (await c.limit(this.pageSize).toArray()).map(d => this.TCreator ? new this.TCreator(this.params.userService.getUser(), d) : d);
+    this.data = (await c.limit(this.pageSize).toArray()).map(d => this.params.objectCreator ? this.params.objectCreator(d) : d);
   }
 
   async nextPage() {
@@ -168,7 +166,12 @@ export abstract class GridService<T> implements OnDestroy {
 
     const c = this.finalQuery ? this.finalQuery : this.selectedTable.toCollection();
     const newData = await c.offset(this.data.length).limit(this.pageSize).toArray();
-    if (newData) newData.forEach(d => this.TCreator ? this.data.push(new this.TCreator(this.params.userService.getUser(), d)) : this.data.push(d));
+    if (newData) newData.forEach(d => this.params.objectCreator ? this.data.push(this.params.objectCreator(d)) : this.data.push(d));
+  }
+
+  handleFilterUpdate(d: FilterFunction<T>[]) {
+    this.updateFilters(d);
+    this.refreshData();
   }
 
 

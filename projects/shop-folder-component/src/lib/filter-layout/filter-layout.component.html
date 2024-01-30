@@ -1,9 +1,9 @@
-<div class="filter-container">
+<div class="filter-container" *ngIf="filters">
 
     <div class="names">
 
         <mat-list role="list">
-            @for (filter of filters; track filter; let idx = $index) {
+            @for (filter of filters; track filter.name; let idx = $index) {
                 <mat-list-item (click)="changeFilter(idx, filter)" [ngClass]="{
                     'bg-selected-row text-selected-row': filter.name === selectedFilter?.name
                 }">{{ filter.name }}</mat-list-item>
@@ -21,7 +21,7 @@
                     {{ selectedFilter.description }}
                 </div>
                 <div class="action">
-                    <button mat-icon-button>
+                    <button mat-icon-button (click)="handleCancel()">
                         <mat-icon>close</mat-icon>
                     </button>
                 </div>
@@ -41,9 +41,9 @@
             </div>
 
             <div class="action">
-                <button mat-raised-button>Cancel</button>
+                <button mat-raised-button (click)="handleCancel()">Cancel</button>
                 &nbsp;
-                <button mat-raised-button color="primary">Apply</button>
+                <button mat-raised-button color="primary" (click)="applyFilter()">Apply</button>
             </div>
         } @else {
             No Filter Selected;

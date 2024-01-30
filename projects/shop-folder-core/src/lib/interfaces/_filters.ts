@@ -1,7 +1,4 @@
-import { FilterFunction } from "../types";
-
-type valueType = string | number | Date;
-type numDate = number | Date;
+import { FilterFunction, numDate, valueType } from "../types";
 
 export interface IFilter {
     name: string;

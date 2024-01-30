@@ -1,6 +1,5 @@
 .filter-container {
     width: 100%;
-    height: 100%;
     display: flex;
 
     .names {
@@ -10,34 +9,42 @@
         display: flex;
         flex-direction: column;
         overflow-y: auto;
+        border-right: solid 1px #efefef;
     }
 
     .details {
-        height: 100%;
+        height: 60vh;
         flex: 1 auto;
         display: flex;
         flex-direction: column;
 
         .description {
             width: 100%;
-            padding: 5px;
-            height: 75px;
+            height: 48px;
             max-height: 150px;
-            display:  flex;
+            display: flex;
 
             .title {
                 flex: 1 auto;
                 height: 100%;
+                padding-top: 10px;
+                padding-left: 10px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                max-width: calc(100vw - 170px);
             }
         }
 
         .filters {
-            flex: 1 auto;
             width: 100%;
+            height: calc(100% - 100px);
+            overflow: auto;
         }
 
         .action {
             display: flex;
+            padding-top: 10px;
 
             button {
                 margin-left: auto;

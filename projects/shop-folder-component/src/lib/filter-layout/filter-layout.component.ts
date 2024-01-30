@@ -1,15 +1,14 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
-import { FilterFunction, IMultiValueFilter, IRangeValueFilter } from 'shop-folder-core';
+import { FilterFunction, anyFilters } from 'shop-folder-core';
 import { MatIconModule } from '@angular/material/icon';
 import { MultiValueCheckboxComponent } from '../multi-value-checkbox/multi-value-checkbox.component';
 import { MultiValueChipComponent } from '../multi-value-chip/multi-value-chip.component';
 import { RangeValueComponent } from '../range-value/range-value.component';
 import { CommonModule } from '@angular/common';
-
-type anyFilters = IMultiValueFilter | IRangeValueFilter;
+import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'lib-filter-layout',
@@ -19,19 +18,23 @@ type anyFilters = IMultiValueFilter | IRangeValueFilter;
     MultiValueCheckboxComponent, MultiValueChipComponent, RangeValueComponent
   ],
   templateUrl: './filter-layout.component.html',
-  styleUrl: './filter-layout.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrl: './filter-layout.component.scss'
 })
-export class FilterLayoutComponent implements OnChanges {
-  @Input() filters: anyFilters[] = [];
+export class FilterLayoutComponent implements OnInit {
 
+  filters: anyFilters[] = [];
   selectedFilter: anyFilters | undefined;
   selectedFilterIndex = -1;
-  filterFunctions: { [key: number]: FilterFunction<any> } = {};
+  filterFunctions: { [key: string]: FilterFunction<any> } = {};
 
-  constructor() { }
+  constructor(
+    private _bottomSheetRef: MatBottomSheetRef<FilterLayoutComponent>,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: anyFilters[]
+  ) {
+    this.filters = data;
+  }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnInit(): void {
     if (this.filters && this.filters.length > 0) {
       this.changeFilter(0, this.filters[0]);
     }
@@ -46,5 +49,14 @@ export class FilterLayoutComponent implements OnChanges {
     if (this.selectedFilterIndex < 0) return;
 
     this.filterFunctions[this.selectedFilterIndex] = filterFunction;
+  }
+
+  applyFilter() {
+    const filterfunctions = Object.keys(this.filterFunctions).map(key => this.filterFunctions[key]);
+    this._bottomSheetRef.dismiss(filterfunctions);
+  }
+
+  handleCancel() {
+    this._bottomSheetRef.dismiss();
   }
 }
