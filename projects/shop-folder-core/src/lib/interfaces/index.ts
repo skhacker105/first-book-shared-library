@@ -4,6 +4,7 @@ export * from './_confirmation';
 export * from './_filters';
 export * from './_folder';
 export * from './_grid-views';
+export * from './_input';
 export * from './_selectable';
 export * from './_sort';
 export * from './addresses';

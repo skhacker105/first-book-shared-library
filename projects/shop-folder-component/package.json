@@ -1,6 +1,6 @@
 {
   "name": "shop-folder-component",
-  "version": "0.0.296",
+  "version": "0.0.303",
   "peerDependencies": {
     "@angular/common": "^17.0.0",
     "@angular/core": "^17.0.0",

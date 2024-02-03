@@ -9,11 +9,14 @@ export const contactGroupConfig = {
 export interface IContactGroup extends IBase, ISelectable {
     name: string;
     isBusinessAccount: boolean;
-    members: number[];
-    admins: number[];
-    objMembers?: IContact[];
-    objAdmins?: IContact[];
-    addMember(contactId: number): Promise<number>;
-    removeMember(contactId: number): Promise<any>;
-    createAdmin(contactId: number): void
+    members: IContactGroupMember[];
+    addMember(contact: IContact, isAdmin?: boolean): void;
+    removeMember(contactId: number): void;
+    setAdmin(contactId: number): void;
+}
+
+export interface IContactGroupMember {
+    memberId: number;
+    member?: IContact;
+    isAdmin: boolean;
 }

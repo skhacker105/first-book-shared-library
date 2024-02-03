@@ -193,7 +193,7 @@ export abstract class GridService<T> implements OnDestroy {
   getSelectedData(): T[] {
     if (this.selectedIds.length === 0) return [];
 
-    return this.data.filter((d: any) => this.selectedIds.indexOf(d.id));
+    return this.data.filter((d: any) => this.selectedIds.indexOf(d.id) >= 0);
   }
 
   // GRID
