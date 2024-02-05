@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
-import { FilterFunction, anyFilters } from 'shop-folder-core';
+import { IFilterOptions, anyFilters } from 'shop-folder-core';
 import { MatIconModule } from '@angular/material/icon';
 import { MultiValueCheckboxComponent } from '../multi-value-checkbox/multi-value-checkbox.component';
 import { MultiValueChipComponent } from '../multi-value-chip/multi-value-chip.component';
@@ -25,7 +25,6 @@ export class FilterLayoutComponent implements OnInit {
   filters: anyFilters[] = [];
   selectedFilter: anyFilters | undefined;
   selectedFilterIndex = -1;
-  filterFunctions: { [key: string]: FilterFunction<any> } = {};
 
   constructor(
     private _bottomSheetRef: MatBottomSheetRef<FilterLayoutComponent>,
@@ -45,15 +44,14 @@ export class FilterLayoutComponent implements OnInit {
     this.selectedFilterIndex = index;
   }
 
-  updateFilterFunction(filterFunction: FilterFunction<any>) {
-    if (this.selectedFilterIndex < 0) return;
+  updateSelectedOptions(selectedOptions: IFilterOptions[]) {
+    if (this.selectedFilterIndex < 0 || this.selectedFilter?.filterType !== 'multiValue') return;
 
-    this.filterFunctions[this.selectedFilterIndex] = filterFunction;
+    if (this.selectedFilter) this.selectedFilter.selectedOptions = selectedOptions;
   }
 
   applyFilter() {
-    const filterfunctions = Object.keys(this.filterFunctions).map(key => this.filterFunctions[key]);
-    this._bottomSheetRef.dismiss(filterfunctions);
+    this._bottomSheetRef.dismiss(this.filters);
   }
 
   handleCancel() {

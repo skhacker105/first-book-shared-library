@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
-import { FilterFunction, IFilterOptions, IMultiValueFilter } from 'shop-folder-core';
+import { IFilterOptions, IMultiValueFilter } from 'shop-folder-core';
 
 @Component({
   selector: 'lib-multi-value-checkbox',
@@ -12,17 +12,30 @@ import { FilterFunction, IFilterOptions, IMultiValueFilter } from 'shop-folder-c
 })
 export class MultiValueCheckboxComponent implements OnInit {
   @Input() filter: IMultiValueFilter | undefined;
-  @Output() onSelectionChange = new EventEmitter<FilterFunction<any>>();
+  @Output() onSelectionChange = new EventEmitter<IFilterOptions[]>();
 
   async ngOnInit() {
     if (this.filter && this.filter.getOptions) {
       this.filter.options = await this.filter.getOptions();
     }
+    this.applyIfAlreadySelected();
+  }
+
+  applyIfAlreadySelected() {
+    if (!this.filter) return;
+
+    if (this.filter.options.length === 0) this.filter.options = this.filter.selectedOptions;
+    else {
+      this.filter.options.forEach(o => {
+        if (this.filter?.selectedOptions.some(so => so.value === o.value)) o.isSelected = true;
+        else o.isSelected = false;
+      });
+    }
   }
 
   selectionChanged(options: any) {
-    if (!this.filter || !this.filter.createFilterFunction) return;
+    if (!this.filter) return;
     const selectedOptions: IFilterOptions[] = options.selected.map((o: any) => o.value);
-    this.onSelectionChange.emit(this.filter.createFilterFunction(selectedOptions));
+    this.onSelectionChange.emit(selectedOptions);
   }
 }

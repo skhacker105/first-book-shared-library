@@ -10,10 +10,10 @@ export interface IMultiValueFilter extends IFilter {
     filterType: 'multiValue';
     type: 'checkbox' | 'chip';
     options: IFilterOptions[];
+    selectedOptions: IFilterOptions[];
     getOptions?: () => Promise<IFilterOptions[]>;
-    createFilterFunction?: (selectedOptions: IFilterOptions[]) => FilterFunction<any>
+    createMultiFilter?: (selectedOptions: IFilterOptions[]) => FilterFunction<any> | undefined
 }
-
 export interface IFilterOptions {
     label: string;
     value: valueType;
@@ -28,5 +28,5 @@ export interface IRangeValueFilter extends IFilter {
     selectedMin: numDate;
     selectedMax: numDate;
     getRange?: () => Promise<{ minValue: numDate; maxValue: numDate; }>;
-    createFilterFunction?: () => FilterFunction<any>
+    createRangeFilter?: (min: numDate, max: numDate) => FilterFunction<any> | undefined
 }

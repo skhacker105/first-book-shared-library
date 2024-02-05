@@ -7,7 +7,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { Router } from '@angular/router';
 import { FilterLayoutComponent } from '../filter-layout/filter-layout.component';
-import { DBService, FilterFunction, anyFilters } from 'shop-folder-core';
+import { DBService, anyFilters } from 'shop-folder-core';
 import { Observable, map, take } from 'rxjs';
 import { ShopFolderLoggerService } from 'shop-folder-logger';
 
@@ -25,7 +25,7 @@ export class PageLayoutComponent implements OnInit {
   @Input() hideDrawer = false;
   @Input() hideFilter = true;
   @Input() filters: anyFilters[] | undefined
-  @Output() onFilterUpdate = new EventEmitter<FilterFunction<any>[]>();
+  @Output() onFilterUpdate = new EventEmitter<anyFilters[]>();
 
 
   fetchFolder$: Observable<any> | undefined;

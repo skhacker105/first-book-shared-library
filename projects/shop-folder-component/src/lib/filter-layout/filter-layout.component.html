@@ -30,10 +30,10 @@
             <!-- show details -->
             @if (selectedFilter.filterType === 'multiValue' && selectedFilter.type === 'checkbox') {
             <lib-multi-value-checkbox [filter]="selectedFilter"
-                (onSelectionChange)="updateFilterFunction($event)"></lib-multi-value-checkbox>
+                (onSelectionChange)="updateSelectedOptions($event)"></lib-multi-value-checkbox>
             } @else if (selectedFilter.filterType === 'multiValue' && selectedFilter.type === 'chip') {
             <lib-multi-value-chip [filter]="selectedFilter"
-                (onSelectionChange)="updateFilterFunction($event)"></lib-multi-value-chip>
+                (onSelectionChange)="updateSelectedOptions($event)"></lib-multi-value-chip>
             } @else if (selectedFilter.filterType === 'rangeValue') {
             <lib-range-value [filter]="selectedFilter"></lib-range-value>
             }

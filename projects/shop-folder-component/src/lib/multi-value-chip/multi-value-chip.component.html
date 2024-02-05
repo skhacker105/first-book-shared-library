@@ -1,7 +1,7 @@
 @if (filter) {
     <mat-chip-listbox multiple="true" (change)="onValueChange($event)">
         @for (option of filter.options; track option.label) {
-            <mat-chip-option [selected]="option.isSelected">{{ option.label }}</mat-chip-option>
+            <mat-chip-option [selected]="option.isSelected" [value]="option">{{ option.label }}</mat-chip-option>
         }
     </mat-chip-listbox>
 }

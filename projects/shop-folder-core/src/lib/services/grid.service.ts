@@ -2,7 +2,7 @@ import { GridApi, GridOptions } from "ag-grid-community";
 import { IConfirmation, IGridView, IUser } from "../interfaces";
 import { ActivatedRoute, } from "@angular/router";
 import { Directive, OnDestroy } from "@angular/core";
-import { Subject } from "rxjs";
+import { Subject, takeUntil } from "rxjs";
 import { Collection, Table } from "dexie";
 import { FilterFunction } from "../types";
 import { ISortBy } from "../interfaces/_sort";
@@ -58,29 +58,25 @@ export abstract class GridService<T> implements OnDestroy {
   }
   ) {
     this.gridViews = params.allViews;
-    this.setDefaultIfNotFound();
-    if (!this.loadViewFromParameter(params.route)) this.loadDefaultView();
+    setTimeout(() => this.subscribeToParameterChange(), 100);
   }
 
-
-  // COLUMN VIEW
-  setDefaultIfNotFound(): void {
-    if (this.gridViews.length === 0) return;
-    if (this.gridViews.find(cd => cd.isDefault)) return;
-    this.gridViews[0].isDefault = true;
-  }
-
-  loadViewFromParameter(route?: ActivatedRoute): boolean {
-    if (!route) return false;
-
-    const paramName = route.snapshot.paramMap.get(this.viewParameterName);
-    if (!paramName) return false;
-
+  loadViewFromParameter(paramName: string): boolean {
     let paramView = this.gridViews.find(view => view.viewName === paramName);
     if (!paramView) return false;
 
     this.updateSelectedView(paramView);
     return true;
+  }
+
+  subscribeToParameterChange() {
+    this.params.route?.queryParamMap
+      .pipe(takeUntil(this.isComponentActive))
+      .subscribe(params => {
+        const paramView = params.get(this.viewParameterName)
+        if (paramView) this.loadViewFromParameter(paramView)
+        else if (this.gridViews.length > 0) this.loadDefaultView();
+      });
   }
 
   loadDefaultView() {
@@ -102,6 +98,7 @@ export abstract class GridService<T> implements OnDestroy {
       autoGroupColumnDef: this.selectedView.autoGroupColumnDef
     });
     this.gridApi?.autoSizeAllColumns();
+    this.handleSelectModeOff();
   }
 
   // Indexed DB - DEXIE
@@ -210,9 +207,10 @@ export abstract class GridService<T> implements OnDestroy {
 
   onGridReady(params: any) {
     this.gridApi = params.api;
-    this.gridApi.updateGridOptions({
-      autoGroupColumnDef: this.selectedView?.autoGroupColumnDef
-    });
+    // this.gridApi.updateGridOptions({
+    //   autoGroupColumnDef: this.selectedView?.autoGroupColumnDef,
+    //   col
+    // });
   }
 
 
