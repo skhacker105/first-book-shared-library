@@ -13,7 +13,7 @@ export const DEFAULT_CONTACT_TYPES: IContactType[] = [
         createdBy: 0,
         createdOn: new Date(),
         isSelected: false,
-        name: 'Customer'
+        name: 'Client'
     },
     {
         id: 3,

@@ -9,12 +9,12 @@ export interface IFilter {
 export interface IMultiValueFilter extends IFilter {
     filterType: 'multiValue';
     type: 'checkbox' | 'chip';
-    options: IFilterOptions[];
-    selectedOptions: IFilterOptions[];
-    getOptions?: () => Promise<IFilterOptions[]>;
-    createMultiFilter?: (selectedOptions: IFilterOptions[]) => FilterFunction<any> | undefined
+    options: IFilterOption[];
+    selectedOptions: IFilterOption[];
+    getOptions?: () => Promise<IFilterOption[]>;
+    createMultiFilter?: (selectedOptions: IFilterOption[]) => FilterFunction<any> | undefined
 }
-export interface IFilterOptions {
+export interface IFilterOption {
     label: string;
     value: valueType;
     isSelected: boolean;

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IFilterOptions, IMultiValueFilter } from 'shop-folder-core';
+import { IFilterOption, IMultiValueFilter } from 'shop-folder-core';
 import { MatChipListboxChange, MatChipsModule } from '@angular/material/chips';
 import { CommonModule } from '@angular/common';
 
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class MultiValueChipComponent implements OnInit {
   @Input() filter: IMultiValueFilter | undefined;
-  @Output() onSelectionChange = new EventEmitter<IFilterOptions[]>();
+  @Output() onSelectionChange = new EventEmitter<IFilterOption[]>();
 
   async ngOnInit() {
     if (this.filter && this.filter.getOptions) {
@@ -36,7 +36,7 @@ export class MultiValueChipComponent implements OnInit {
   onValueChange(changeValue: MatChipListboxChange) {
     if (!this.filter) return;
 
-    const selectedOptions: IFilterOptions[] = changeValue.value;
+    const selectedOptions: IFilterOption[] = changeValue.value;
     this.onSelectionChange.emit(selectedOptions);
   }
 }

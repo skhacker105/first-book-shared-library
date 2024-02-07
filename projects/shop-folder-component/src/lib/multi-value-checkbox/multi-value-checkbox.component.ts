@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
-import { IFilterOptions, IMultiValueFilter } from 'shop-folder-core';
+import { IFilterOption, IMultiValueFilter } from 'shop-folder-core';
 
 @Component({
   selector: 'lib-multi-value-checkbox',
@@ -12,7 +12,7 @@ import { IFilterOptions, IMultiValueFilter } from 'shop-folder-core';
 })
 export class MultiValueCheckboxComponent implements OnInit {
   @Input() filter: IMultiValueFilter | undefined;
-  @Output() onSelectionChange = new EventEmitter<IFilterOptions[]>();
+  @Output() onSelectionChange = new EventEmitter<IFilterOption[]>();
 
   async ngOnInit() {
     if (this.filter && this.filter.getOptions) {
@@ -35,7 +35,7 @@ export class MultiValueCheckboxComponent implements OnInit {
 
   selectionChanged(options: any) {
     if (!this.filter) return;
-    const selectedOptions: IFilterOptions[] = options.selected.map((o: any) => o.value);
+    const selectedOptions: IFilterOption[] = options.selected.map((o: any) => o.value);
     this.onSelectionChange.emit(selectedOptions);
   }
 }

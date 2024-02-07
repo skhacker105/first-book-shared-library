@@ -1,11 +1,12 @@
 import { GridApi, GridOptions } from "ag-grid-community";
-import { IConfirmation, IGridView, IUser } from "../interfaces";
-import { ActivatedRoute, } from "@angular/router";
+import { IConfirmation, IGridView } from "../interfaces";
+import { ActivatedRoute, ParamMap, } from "@angular/router";
 import { Directive, OnDestroy } from "@angular/core";
-import { Subject, takeUntil } from "rxjs";
+import { Subject, debounceTime, takeUntil } from "rxjs";
 import { Collection, Table } from "dexie";
-import { FilterFunction } from "../types";
+import { FilterFunction, anyFilters } from "../types";
 import { ISortBy } from "../interfaces/_sort";
+import { isMultiValueFilter, isRangeValueFilter, mapMultiValueParamOptions } from "../utils";
 
 
 @Directive()
@@ -31,6 +32,10 @@ export abstract class GridService<T> implements OnDestroy {
   private defaultOrderBy: ISortBy | undefined;
   private finalQuery: Collection<T, number> | undefined;
 
+  // FILTER
+  paramMap: ParamMap | undefined;
+  pageFilters: anyFilters[] = [];
+
   // ROW SELECTION
   selectMode = false;
   selectedView: IGridView | undefined;
@@ -54,11 +59,16 @@ export abstract class GridService<T> implements OnDestroy {
   constructor(public params: {
     allViews: IGridView[],
     route?: ActivatedRoute,
-    objectCreator?: (obj: any) => T
+    objectCreator?: (obj: any) => T,
+    table?: Table<T, number>
   }
   ) {
+    this.selectedTable = params.table;
     this.gridViews = params.allViews;
-    setTimeout(() => this.subscribeToParameterChange(), 100);
+    this.subscribeToParameterChange();
+    this.subscribeToParamFilters();
+    this.subscribeToFilterMappingUpdated();
+    // setTimeout(() => { this.subscribeToParameterChange(); this.subscribeToParamFilters() }, 100);
   }
 
   loadViewFromParameter(paramName: string): boolean {
@@ -169,6 +179,83 @@ export abstract class GridService<T> implements OnDestroy {
   handleFilterUpdate(d: FilterFunction<T>[]) {
     this.updateFilters(d);
     this.refreshData();
+  }
+
+  // FILTER
+  abstract createPageFilters(): void;
+
+  subscribeToParamFilters(): void {
+    if (!this.params.route) return;
+
+    this.params.route.queryParamMap
+      .pipe(takeUntil(this.isComponentActive))
+      .subscribe(async (params) => {
+        this.paramMap = params;
+        this.mapParamsToFilter();
+        if (!this.paramMap) this.refreshData();
+      });
+  }
+
+  filterMappingUpdatedObs = new Subject<void>();
+  async mapParamsToFilter() {
+    if (!this.paramMap) return;
+    this.pageFilters.forEach(async (filter) => {
+      if (!this.paramMap) return;
+
+      // Check for multi value filter
+      if (isMultiValueFilter(filter)) {
+        if ((!filter.options || filter.options.length === 0) && filter.getOptions) {
+          filter.options = await filter.getOptions();
+        }
+        if (!filter.options || filter.options.length === 0) return;
+
+        const paramValue = this.paramMap.get(filter.column);
+        if (paramValue) {
+          const valueArr = paramValue.split(',');
+          filter.selectedOptions = mapMultiValueParamOptions(valueArr, filter.options);
+          if (filter.selectedOptions.length > 0) this.filterMappingUpdatedObs.next();
+        }
+      }
+      // Check for range value
+      if (isRangeValueFilter(filter)) {
+        const minval = this.paramMap.get(filter.column + '_min');
+        const maxval = this.paramMap.get(filter.column + '_max');
+        if (minval && !isNaN(+minval)) filter.selectedMin = +minval;
+        if (maxval && !isNaN(+maxval)) filter.selectedMax = +maxval;
+        if (minval || maxval) this.filterMappingUpdatedObs.next();
+      }
+    });
+    this.refreshData();
+  }
+
+  subscribeToFilterMappingUpdated() {
+    this.filterMappingUpdatedObs
+    .pipe(
+      debounceTime(500),
+      takeUntil(this.isComponentActive)
+    )
+    .subscribe(() => {
+      console.log('filters = ', JSON.parse(JSON.stringify(this.pageFilters)));
+      this.handleFilterUpdate(this.convertFiltersToFunctions(this.pageFilters))
+      this.refreshData();
+    });
+  }
+
+  convertFiltersToFunctions(filter: anyFilters[]): FilterFunction<T>[] {
+    let filterfunctions: FilterFunction<T>[] = [];
+    filter.forEach(filter => {
+      const fn = this.convertFilterToFunction(filter);
+      if (fn) filterfunctions.push(fn);
+    });
+    return filterfunctions;
+  }
+
+  convertFilterToFunction(filter: anyFilters): FilterFunction<T> | undefined {
+    if (filter && isMultiValueFilter(filter) && filter.createMultiFilter) {
+      const fn = filter.createMultiFilter(filter.selectedOptions);
+      if (fn) return fn;
+    }
+    return;
   }
 
 
