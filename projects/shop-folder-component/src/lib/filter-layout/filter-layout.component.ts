@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
-import { IFilterOptions, anyFilters } from 'shop-folder-core';
+import { IFilterOption, anyFilters } from 'shop-folder-core';
 import { MatIconModule } from '@angular/material/icon';
 import { MultiValueCheckboxComponent } from '../multi-value-checkbox/multi-value-checkbox.component';
 import { MultiValueChipComponent } from '../multi-value-chip/multi-value-chip.component';
@@ -44,7 +44,7 @@ export class FilterLayoutComponent implements OnInit {
     this.selectedFilterIndex = index;
   }
 
-  updateSelectedOptions(selectedOptions: IFilterOptions[]) {
+  updateSelectedOptions(selectedOptions: IFilterOption[]) {
     if (this.selectedFilterIndex < 0 || this.selectedFilter?.filterType !== 'multiValue') return;
 
     if (this.selectedFilter) this.selectedFilter.selectedOptions = selectedOptions;

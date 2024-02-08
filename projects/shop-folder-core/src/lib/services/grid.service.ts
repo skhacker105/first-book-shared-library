@@ -1,7 +1,7 @@
 import { GridApi, GridOptions } from "ag-grid-community";
 import { IConfirmation, IGridView } from "../interfaces";
 import { ActivatedRoute, ParamMap, } from "@angular/router";
-import { Directive, OnDestroy } from "@angular/core";
+import { Directive, OnDestroy, OnInit } from "@angular/core";
 import { Subject, debounceTime, takeUntil } from "rxjs";
 import { Collection, Table } from "dexie";
 import { FilterFunction, anyFilters } from "../types";
@@ -10,7 +10,7 @@ import { isMultiValueFilter, isRangeValueFilter, mapMultiValueParamOptions } fro
 
 
 @Directive()
-export abstract class GridService<T> implements OnDestroy {
+export abstract class GridService<T> implements OnInit, OnDestroy {
 
   // GRID
   data: T[] = [];
@@ -65,10 +65,13 @@ export abstract class GridService<T> implements OnDestroy {
   ) {
     this.selectedTable = params.table;
     this.gridViews = params.allViews;
+    // setTimeout(() => { this.subscribeToParameterChange(); this.subscribeToParamFilters() }, 100);
+  }
+
+  ngOnInit(): void {
     this.subscribeToParameterChange();
     this.subscribeToParamFilters();
     this.subscribeToFilterMappingUpdated();
-    // setTimeout(() => { this.subscribeToParameterChange(); this.subscribeToParamFilters() }, 100);
   }
 
   loadViewFromParameter(paramName: string): boolean {
@@ -235,7 +238,6 @@ export abstract class GridService<T> implements OnDestroy {
       takeUntil(this.isComponentActive)
     )
     .subscribe(() => {
-      console.log('filters = ', JSON.parse(JSON.stringify(this.pageFilters)));
       this.handleFilterUpdate(this.convertFiltersToFunctions(this.pageFilters))
       this.refreshData();
     });

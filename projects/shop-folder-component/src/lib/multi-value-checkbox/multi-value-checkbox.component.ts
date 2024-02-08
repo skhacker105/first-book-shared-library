@@ -1,18 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatListModule } from '@angular/material/list';
+import { FormsModule } from '@angular/forms';
+import { MatListModule, MatSelectionListChange } from '@angular/material/list';
 import { IFilterOption, IMultiValueFilter } from 'shop-folder-core';
 
 @Component({
   selector: 'lib-multi-value-checkbox',
   standalone: true,
-  imports: [CommonModule, MatListModule],
+  imports: [CommonModule, MatListModule, FormsModule],
   templateUrl: './multi-value-checkbox.component.html',
   styleUrl: './multi-value-checkbox.component.scss'
 })
 export class MultiValueCheckboxComponent implements OnInit {
   @Input() filter: IMultiValueFilter | undefined;
   @Output() onSelectionChange = new EventEmitter<IFilterOption[]>();
+
+  isDataReady = false;
 
   async ngOnInit() {
     if (this.filter && this.filter.getOptions) {
@@ -21,8 +24,13 @@ export class MultiValueCheckboxComponent implements OnInit {
     this.applyIfAlreadySelected();
   }
 
+  compareFunction = (o1: any, o2: any) => o1.value === o2.value;
+
   applyIfAlreadySelected() {
-    if (!this.filter) return;
+    if (!this.filter) {
+      this.isDataReady = true;
+      return;
+    }
 
     if (this.filter.options.length === 0) this.filter.options = this.filter.selectedOptions;
     else {
@@ -31,11 +39,13 @@ export class MultiValueCheckboxComponent implements OnInit {
         else o.isSelected = false;
       });
     }
+    this.isDataReady = true;
   }
 
-  selectionChanged(options: any) {
+  selectionChanged(options: MatSelectionListChange) {
     if (!this.filter) return;
-    const selectedOptions: IFilterOption[] = options.selected.map((o: any) => o.value);
+
+    const selectedOptions: IFilterOption[] = options.options.map((o: any) => o.value);
     this.onSelectionChange.emit(selectedOptions);
   }
 }
