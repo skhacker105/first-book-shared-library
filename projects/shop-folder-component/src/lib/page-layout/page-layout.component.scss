@@ -81,3 +81,32 @@
         }
     }
 }
+
+
+
+::ng-deep {
+    .menu-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    
+        .menu-item {
+            display: flex;
+            padding: 5px;
+            gap: 10px;
+    
+            .mat-icon {
+                width: 20px;
+                height: 20px;
+                font-size: 145%;
+                margin: auto;
+                line-height: inherit;
+            }
+
+            span {
+                margin: auto;
+            }
+        }
+    }
+}

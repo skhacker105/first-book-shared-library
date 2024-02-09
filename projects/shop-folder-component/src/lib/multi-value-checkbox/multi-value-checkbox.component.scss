@@ -1,0 +1,11 @@
+.list-option {
+    height: 31px !important;
+    border-bottom: solid 1px;
+    border-color: inherit;
+}
+
+::ng-deep {
+    .mat-mdc-list-item-unscoped-content {
+        font-size: inherit !important;
+    }
+}

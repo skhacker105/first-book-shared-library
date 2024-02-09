@@ -1,7 +1,7 @@
 @if (filter && isDataReady) {
-    <mat-selection-list #mvc (selectionChange)="selectionChanged($event)" [(ngModel)]="filter.selectedOptions">
+    <mat-selection-list #mvc (selectionChange)="selectionChanged($event)">
         @for (option of filter.options; track option.label) {
-            <mat-list-option [selected]="option.isSelected" [value]="option">{{ option.label }}</mat-list-option>
+            <mat-list-option class="list-option border-b-default" [selected]="option.isSelected" [value]="option">{{ option.label }}</mat-list-option>
         }
     </mat-selection-list>
 }
