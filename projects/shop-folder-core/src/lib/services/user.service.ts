@@ -35,6 +35,10 @@ export class UserService {
     else return this.userStorageManager.get();
   }
 
+  isLoggedIn(): boolean {
+    return !this.userStorageManager.isEmpty();
+  }
+
   async handleFolderChange(db: AppDB) {
     const user = this.getUser();
     if (db.folder.name === this.dbService.myFolder.name) this.userStorageManager.reset();

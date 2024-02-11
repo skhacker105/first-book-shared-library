@@ -3,6 +3,7 @@ cls
 :: locations of all application
 set baseLocation=D:\ShopFolderContainer\
 set sharedLib=%baseLocation%SharedLibrary\
+set sf=%baseLocation%shop-folder\
 set sfHome=%baseLocation%shop-folder-home\
 set sfLogin=%baseLocation%shop-folder-login\
 set sfTodo=%baseLocation%shop-folder-todo\
@@ -48,8 +49,10 @@ cd %sharedLib%\dist\shop-folder-component
 CALL npm publish && (echo Published Component) || (echo Error while publishing Component)
 
 :: update applications
-cd %sfHome%
 set selectedLibrary=shop-folder-component
+cd %sf%
+CALL updatepackage.bat %selectedLibrary% true
+cd %sfHome%
 CALL updatepackage.bat %selectedLibrary% true
 cd %sfLogin%
 CALL updatepackage.bat %selectedLibrary% true
@@ -73,8 +76,10 @@ cd %sharedLib%\dist\shop-folder-core
 CALL npm publish && (echo Published Core) || (echo Error while publishing Core)
 
 :: update applications
-cd %sharedLib%
 set selectedLibrary=shop-folder-core
+cd %sharedLib%
+CALL updatepackage.bat %selectedLibrary% true
+cd %sf%
 CALL updatepackage.bat %selectedLibrary% true
 cd %sfHome%
 CALL updatepackage.bat %selectedLibrary% true
@@ -100,8 +105,10 @@ cd %sharedLib%\dist\shop-folder-logo
 CALL npm publish && (echo Published Logo) || (echo Error while publishing Logo)
 
 :: update applications
-cd %sfHome%
 set selectedLibrary=shop-folder-logo
+cd %sf%
+CALL updatepackage.bat %selectedLibrary% true
+cd %sfHome%
 CALL updatepackage.bat %selectedLibrary% true\
 cd %sfTodo%
 CALL updatepackage.bat %selectedLibrary% true
@@ -125,8 +132,12 @@ cd dist\shop-folder-logger
 CALL npm publish && (echo Published Logger) || (echo Error while publishing Logger)
 
 :: update applications
-cd %sfHome%
 set selectedLibrary=shop-folder-logger
+cd %sf%
+CALL updatepackage.bat %selectedLibrary% true
+cd %sharedLib%
+CALL updatepackage.bat %selectedLibrary% true
+cd %sfHome%
 CALL updatepackage.bat %selectedLibrary% true
 cd %sfLogin%
 CALL updatepackage.bat %selectedLibrary% true
@@ -152,8 +163,19 @@ cd dist\shop-folder-directive
 CALL npm publish && (echo Published Directive) || (echo Error while publishing Directive)
 
 :: update applications
+set selectedLibrary=shop-folder-directive
+cd %sf%
+CALL updatepackage.bat %selectedLibrary% true
 cd %sharedLib%
-CALL npm i shop-folder-directive@latest
+CALL updatepackage.bat %selectedLibrary% true
+cd %sfHome%
+CALL updatepackage.bat %selectedLibrary% true
+cd %sfLogin%
+CALL updatepackage.bat %selectedLibrary% true
+cd %sfTodo%
+CALL updatepackage.bat %selectedLibrary% true
+cd %sfContact%
+CALL updatepackage.bat %selectedLibrary% true
 IF /i NOT %buildFor%==all goto libBuildPublishExit
 
 :: ===========================================================================

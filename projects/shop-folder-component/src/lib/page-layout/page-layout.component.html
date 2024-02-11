@@ -14,6 +14,20 @@
 
             <!-- DRAWER BODY ( MAIN MENU ) -->
             <div class="page-body bg-page-content text-page-content leading-page-content">
+                <div class="logged-in-user border-b-default">
+                    <div class="icon">
+                        <mat-icon>login</mat-icon>
+                    </div>
+                    <div class="user-info-conatiner">
+                        @if (!userService.isLoggedIn()) {
+                        <div class="login-button">
+                            <button mat-button color="primary" routerLink="/login">
+                                Login/Signup
+                            </button>
+                        </div>
+                        }
+                    </div>
+                </div>
                 <mat-list role="list">
                     <div mat-subheader>Folders</div>
                     @for (folder of fetchFolder$ | async; track folder) {
@@ -21,7 +35,7 @@
                         'bg-selected-row': folder.isSelected
                     }">
                         <mat-icon matListItemIcon>note</mat-icon>
-                        <div matListItemTitle  [ngClass]="{
+                        <div matListItemTitle [ngClass]="{
                             'text-selected-row': folder.isSelected
                         }">{{folder.name}}</div>
                         @if(folder.lastUpdated) {
@@ -32,7 +46,7 @@
                 </mat-list>
             </div>
         </mat-drawer>
-        <mat-drawer-content>
+        <mat-drawer-content class="page-layout-content">
             <ng-container [ngTemplateOutlet]="pageTemplate" [ngTemplateOutletContext]="{
                 drawer: drawer
             }"></ng-container>
@@ -81,6 +95,57 @@
         @if (!hideFilter) {
         <div class="pageFilter" (click)="openFilterPanel()">
             <mat-icon>filter_alt</mat-icon>
+        </div>
+        }
+        @if (logger.logs.length > 0){
+        <div class="pageFilter">
+            <mat-icon [matMenuTriggerFor]="logsInfo" (menuOpened)="isLogsOpened = true"
+                (menuClosed)="isLogsOpened = false" [ngClass]="{
+                    'bg-selected-row text-selected-row': isLogsOpened
+                }">
+                perm_device_information
+            </mat-icon>
+            <mat-menu #logsInfo="matMenu">
+
+                <mat-list>
+                    @for(log of logger.logs; track log){
+                    <mat-list-item [ngClass]="{
+                                    'expanded': selectedLog === log
+                                }" (click)="handleListClicked($event, log)">
+
+                        <mat-icon matListItemIcon>
+                            @switch (log.type) {
+                            @case ('normal') {
+                            note
+                            }
+                            @case ('success') {
+                            check_circle
+                            }
+                            @case ('error') {
+                            error
+                            }
+                            }
+                        </mat-icon>
+
+                        <div matListItemTitle>
+                            @if (isBasic(log)) {
+                            {{ log.message }}
+                            }
+                            @else if (isDate(log)) {
+                            {{ log.message | timeAgo }}
+                            }
+                            @else {
+                            {{ log.message | json }}
+                            }
+                        </div>
+                        <div matListItemLine>
+                            {{ log.createdOn | timeAgo | async }}
+                        </div>
+                    </mat-list-item>
+
+                    }
+                </mat-list>
+            </mat-menu>
         </div>
         }
     </div>

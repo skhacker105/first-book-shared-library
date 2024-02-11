@@ -14,12 +14,17 @@
         flex-direction: column;
         z-index: 1;
         border: none;
-        background-color: transparent;
+        flex-direction: column-reverse;
 
         .page-layout-drawer {
             width: 90%;
             display: flex;
             flex-direction: column;
+        }
+
+        .page-layout-content {
+            display: flex;
+            flex-direction: column-reverse;
         }
 
         .page-header {
@@ -47,6 +52,28 @@
             flex: 1 auto;
             overflow-y: auto;
             height: calc(100% - 70px);
+
+            .logged-in-user {
+                display: flex;
+                height: 45px;
+                border-bottom: solid 1px;
+
+                .icon,
+                .icon .mat-icon {
+                    width: 50px;
+                    padding-left: 8px;
+                    margin: auto;
+                    display: flex;
+                }
+
+                .user-info-conatiner {
+                    flex: 1 auto;
+
+                    .login-button {
+                        padding: 5px;
+                    }
+                }
+            }
         }
 
         .page-footer {
@@ -90,12 +117,12 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-    
+
         .menu-item {
             display: flex;
             padding: 5px;
             gap: 10px;
-    
+
             .mat-icon {
                 width: 20px;
                 height: 20px;
@@ -108,5 +135,14 @@
                 margin: auto;
             }
         }
+    }
+
+    .mat-mdc-menu-panel {
+        border-radius: 0px !important;
+        box-shadow: none !important;
+    }
+
+    .expanded {
+        text-wrap: balance;
     }
 }

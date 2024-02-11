@@ -1,10 +1,14 @@
 {
   "name": "shop-folder-core",
-  "version": "0.0.160",
+  "version": "0.0.168",
   "peerDependencies": {
     "@angular/common": "^17.0.0",
     "@angular/core": "^17.0.0",
-    "dexie": "^3.2.4"
+    "dexie": "^3.2.4",
+    "@capacitor/core": "latest",
+    "@capacitor-community/contacts": "latest",
+    "@capacitor/device": "latest",
+    "@jonz94/capacitor-sim": "latest"
   },
   "dependencies": {
     "tslib": "^2.3.0"

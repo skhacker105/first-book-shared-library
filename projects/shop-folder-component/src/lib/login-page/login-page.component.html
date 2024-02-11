@@ -18,13 +18,13 @@
             <!-- Phone Email -->
             <div class="login-box-input">
                 <div class="login-box-input-txt">
-                    <input [formControl]="phoneemail" placeholder="Enter Phone / Email">
+                    <input [formControl]="phone" type="phone" placeholder="Enter Phone" (focus)="handleOnFocus()">
                 </div>
                 <div class="login-box-input-button">
-                    <button [disabled]="phoneemail.value ? false : true">GO</button>
+                    <button [disabled]="phone.value ? false : true">GO</button>
                 </div>
             </div>
-            
+
             <!-- Continue Without Login -->
             <div class="login-box-input">
                 <div class="login-box-input-txt">
@@ -45,3 +45,31 @@
         </div>
     </div>
 </div>
+
+<ng-template #simOptions let-data>
+    @if (data && data.simsCards) {
+    <mat-card class="dialog-container">
+        <mat-card-header>
+            <mat-icon mat-card-avatar>sim_card</mat-icon>
+            <mat-card-title> {{ data.length > 1 ? 'Sims' : 'Sim' }} Found </mat-card-title>
+            <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+        </mat-card-header>
+        <mat-card-content>
+            <mat-selection-list #phones [multiple]="false">
+                @for (sim of data.simsCards; track sim.phone) {
+                <mat-list-option [value]="sim">
+                    {{ sim.phone }}
+                </mat-list-option>
+                }
+            </mat-selection-list>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-button mat-dialog-close>CANCEL</button>
+            &nbsp;
+            <button mat-raised-button mat-dialog-close [mat-dialog-close]="phones.selectedOptions.hasValue() ? phones.selectedOptions.selected[0].value : undefined" color="primary">
+                Next
+            </button>
+        </mat-card-actions>
+    </mat-card>
+    }
+</ng-template>

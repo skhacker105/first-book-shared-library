@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 
-interface IMessageType {
+export interface ILogMessageType {
   userId?: string,
   type: 'normal' | 'success' | 'error',
-  message: string,
-  stackTrace?: string
+  message: any,
+  stackTrace?: string,
+  createdOn: Date
 }
 
 @Injectable({
@@ -12,36 +13,39 @@ interface IMessageType {
 })
 export class ShopFolderLoggerService {
 
-  logs: IMessageType[] = [];
+  logs: ILogMessageType[] = [];
 
   constructor() { }
 
-  log(msg: string, userId?: string, stackTrace?: string) {
+  log(msg: any, userId?: string, stackTrace?: string) {
     this.logs.push({
       message: msg,
       type: 'normal',
       stackTrace: stackTrace,
-      userId
+      userId,
+      createdOn: new Date()
     });
     console.log('Log Message: ' + msg);
   }
 
-  logSuccess(msg: string, userId?: string, stackTrace?: string) {
+  logSuccess(msg: any, userId?: string, stackTrace?: string) {
     this.logs.push({
       message: msg,
       type: 'success',
       stackTrace: stackTrace,
-      userId
+      userId,
+      createdOn: new Date()
     });
     console.log('Log Success: ' + msg);
   }
 
-  logError(msg: string, userId?: string, stackTrace?: string) {
+  logError(msg: any, userId?: string, stackTrace?: string) {
     this.logs.push({
       message: msg,
       type: 'error',
       stackTrace: stackTrace,
-      userId
+      userId,
+      createdOn: new Date()
     });
     console.log('Log Error: ' + msg);
   }

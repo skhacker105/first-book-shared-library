@@ -16,7 +16,7 @@
         align-items: center;
         height: 100%;
         min-height: 100%;
-        background: linear-gradient(180deg, rgb(206 189 124 / 77%) 5%, rgba(255,255,255,0.05374649859943981) 25%);
+        background: linear-gradient(180deg, rgb(206 189 124 / 77%) 5%, rgba(255, 255, 255, 0.05374649859943981) 25%);
 
         .login-box-header {
             text-align: center;
@@ -88,11 +88,13 @@
             display: flex;
 
             .login-box-input-txt {
-                padding: 5px;
+                padding-top: 5px;
                 flex: 1 auto;
+                padding-left: 5px;
+                padding-bottom: 5px;
 
                 input {
-                    width: calc(100% + 25px);
+                    width: 100%;
                     border: solid 1px #a4a4a4;
                     padding: 10px;
                     background: #404040;
@@ -113,8 +115,10 @@
             }
 
             .login-box-input-button {
-                padding: 5px;
+                padding-top: 5px;
                 text-align: center;
+                padding-bottom: 5px;
+                padding-right: 5px;
 
                 button {
                     background-color: #404040;

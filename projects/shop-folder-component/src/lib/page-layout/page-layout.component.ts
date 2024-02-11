@@ -5,18 +5,22 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatRippleModule } from '@angular/material/core';
 import { MatListModule } from '@angular/material/list';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FilterLayoutComponent } from '../filter-layout/filter-layout.component';
-import { DBService, anyFilters } from 'shop-folder-core';
+import { DBService, UserService, anyFilters } from 'shop-folder-core';
 import { Observable, map, take } from 'rxjs';
-import { ShopFolderLoggerService } from 'shop-folder-logger';
+import { ILogMessageType, ShopFolderLoggerService } from 'shop-folder-logger';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+import { TimeAgoPipe } from 'shop-folder-directive';
 
 @Component({
   selector: 'lib-page-layout',
   templateUrl: './page-layout.component.html',
   styleUrl: './page-layout.component.scss',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatSidenavModule, MatRippleModule, MatListModule, MatBottomSheetModule, FilterLayoutComponent]
+  imports: [CommonModule, MatIconModule, MatSidenavModule, MatRippleModule, MatListModule, MatBottomSheetModule, FilterLayoutComponent, MatButtonModule, RouterModule, MatDialogModule, MatMenuModule, TimeAgoPipe]
 })
 export class PageLayoutComponent implements OnInit {
   @Input() title = '';
@@ -28,13 +32,16 @@ export class PageLayoutComponent implements OnInit {
   @Output() onFilterUpdate = new EventEmitter<anyFilters[]>();
 
 
+  isLogsOpened = false;
+  selectedLog: ILogMessageType | undefined;
   fetchFolder$: Observable<any> | undefined;
 
   constructor(
     private router: Router,
     private _bottomSheet: MatBottomSheet,
     public dbService: DBService,
-    private logger: ShopFolderLoggerService
+    public logger: ShopFolderLoggerService,
+    public userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -53,12 +60,28 @@ export class PageLayoutComponent implements OnInit {
         data: this.filters
       });
       filterPanel.afterDismissed()
-      .pipe(take(1))
-      .subscribe({
-        next: res => res ? this.onFilterUpdate.emit(res) : null
-      });
+        .pipe(take(1))
+        .subscribe({
+          next: res => res ? this.onFilterUpdate.emit(res) : null
+        });
     }
     else
       this.logger.logError('Cannot open filter panel as there are no filters to show.')
+  }
+
+  isBasic(log: ILogMessageType) {
+    return ['string', 'number', 'boolean'].indexOf(typeof log.message) >= 0;
+  }
+
+  isDate(log: ILogMessageType) {
+    return !isNaN(Date.parse(log.message));
+  }
+
+  handleListClicked(event: any, log: ILogMessageType) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.selectedLog = log;
+    console.log({event});
+    return false;
   }
 }

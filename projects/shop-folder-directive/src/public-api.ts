@@ -3,3 +3,4 @@
  */
 
 export * from './lib/swipe.directive';
+export * from './lib/time-ago.pipe';
